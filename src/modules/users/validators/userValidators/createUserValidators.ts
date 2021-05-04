@@ -1,3 +1,6 @@
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import AppError from '@shared/errors/AppError';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 interface IRequest {
@@ -33,6 +36,20 @@ const createUserValidator = async ({
   courseId,
 }: IRequest): Promise<unknown> => {
   // TODO: Validate CNPJ
+
+  const usersRepository = getCustomRepository(UsersRepository);
+
+  const cpfUser = await usersRepository.findByCpf(cpf);
+  const emailUser = await usersRepository.findByEmail(email);
+
+  if (cpfUser) {
+    throw new AppError('Cpf já existente', 400);
+  }
+
+  if (emailUser) {
+    throw new AppError('Email já existente', 400);
+  }
+
   return schema.validate(
     {
       name,
