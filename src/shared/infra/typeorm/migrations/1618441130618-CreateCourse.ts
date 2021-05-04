@@ -18,6 +18,7 @@ export default class CreateCourse1618441130618 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'created_at',

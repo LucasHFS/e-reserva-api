@@ -27,14 +27,14 @@ afterAll(async () => {
 describe('CreateSurvivor', () => {
   it('adds a bond to the database', async () => {
     const response = await request(app).post('/bonds').send({
-      name: 'Manager',
+      name: 'Bond A',
     });
 
     expect(response.status).toBe(201);
     expect(response.body).toEqual(
       expect.objectContaining({
         id: expect.any(String),
-        name: 'Manager',
+        name: 'Bond A',
         created_at: expect.any(String),
         updated_at: expect.any(String),
       }),
@@ -45,19 +45,19 @@ describe('CreateSurvivor', () => {
 describe('UpdateBond', () => {
   it('updates a bond of the database', async () => {
     const newBond = new Bond();
-    newBond.name = 'Manageer';
+    newBond.name = 'Bond a';
 
     const bond = await bondsRepository.save(newBond);
 
     const response = await request(app).put(`/bonds/${bond.id}`).send({
-      name: 'manager updated',
+      name: 'Bond updated',
     });
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
         id: expect.any(String),
-        name: 'manager updated',
+        name: 'Bond updated',
         created_at: expect.any(String),
         updated_at: expect.any(String),
       }),
@@ -68,7 +68,7 @@ describe('UpdateBond', () => {
 describe('DeleteBond', () => {
   it('deletes a bond', async () => {
     const newBond = new Bond();
-    newBond.name = 'Manageer';
+    newBond.name = 'Bond a';
 
     const bond = await bondsRepository.save(newBond);
     const response = await request(app).delete(`/bonds/${bond.id}`).send();
