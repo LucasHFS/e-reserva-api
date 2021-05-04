@@ -18,6 +18,7 @@ export default class CreateBond1618442137076 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'created_at',

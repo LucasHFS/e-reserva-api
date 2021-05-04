@@ -15,6 +15,15 @@ import CoursesRepository from '@modules/users/infra/typeorm/repositories/Courses
 import IRolesRepository from '@modules/users/repositories/IRolesRepository';
 import RolesRepository from '@modules/users/infra/typeorm/repositories/RolesRepository';
 
+import IRoomsRepository from '@modules/rentable-items/repositories/IRoomsRepository';
+import RoomsRepository from '@modules/rentable-items/infra/typeorm/repositories/RoomsRepository';
+
+import IEquipmentsRepository from '@modules/rentable-items/repositories/IEquipmentsRepository';
+import EquipmentsRepository from '@modules/rentable-items/infra/typeorm/repositories/EquipmentsRepository';
+
+import ISportCourtsRepository from '@modules/rentable-items/repositories/ISportCourtsRepository';
+import SportCourtsRepository from '@modules/rentable-items/infra/typeorm/repositories/SportCourtsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -33,4 +42,19 @@ container.registerSingleton<IRolesRepository>(
 container.registerSingleton<IBondsRepository>(
   'BondsRepository',
   BondsRepository,
+);
+
+container.registerSingleton<IRoomsRepository>(
+  'RoomsRepository',
+  RoomsRepository,
+);
+
+container.registerSingleton<IEquipmentsRepository>(
+  'EquipmentsRepository',
+  EquipmentsRepository,
+);
+
+container.registerSingleton<ISportCourtsRepository>(
+  'SportCourtsRepository',
+  SportCourtsRepository,
 );
