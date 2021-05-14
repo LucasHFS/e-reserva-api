@@ -5,12 +5,21 @@ import app from '@shared/infra/http/app';
 import createConnection from '@shared/infra/typeorm';
 import SportCourtsRepository from '@modules/rentable-items/infra/typeorm/repositories/SportCourtsRepository';
 import SportCourt from '@modules/rentable-items/infra/typeorm/entities/SportCourt';
+import generateToken from '@shared/helpers/generateToken';
+
+let admin_token: string;
 
 let connection: Connection;
 
 beforeAll(async () => {
   connection = await createConnection('test-connection');
   await connection.query('DELETE FROM sportCourts');
+  await connection.query('DELETE FROM user_courses');
+  await connection.query('DELETE FROM users');
+  await connection.query('DELETE FROM courses');
+  await connection.query('DELETE FROM bonds');
+  const token = await generateToken();
+  admin_token = token;
 });
 
 afterAll(async () => {
@@ -22,10 +31,13 @@ afterAll(async () => {
 
 describe('CreateSurvivor', () => {
   it('adds a sportCourt to the database', async () => {
-    const response = await request(app).post('/sportCourts').send({
-      name: 'Test',
-      description: 'description',
-    });
+    const response = await request(app)
+      .post('/sportCourts')
+      .set('authorization', `bearer ${admin_token}`)
+      .send({
+        name: 'Test',
+        description: 'description',
+      });
 
     expect(response.status).toBe(201);
     expect(response.body).toEqual(
@@ -52,6 +64,7 @@ describe('UpdateSportCourt', () => {
 
     const response = await request(app)
       .put(`/sportCourts/${sportCourt.id}`)
+      .set('authorization', `bearer ${admin_token}`)
       .send({
         name: 'test updated',
         description: 'description things',
@@ -80,6 +93,7 @@ describe('DeleteSportCourt', () => {
 
     const response = await request(app)
       .delete(`/sportCourts/${sportCourt.id}`)
+      .set('authorization', `bearer ${admin_token}`)
       .send();
 
     expect(response.status).toBe(204);
