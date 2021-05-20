@@ -1,11 +1,11 @@
-import Role from '../infra/typeorm/entities/Role';
-import RoleDTO from '../dtos/RoleDTO';
+import Room from '../infra/typeorm/entities/Room';
+import CreateRoomDTO from '../dtos/ICreateRoomDTO';
 
-export default interface RolesRepository {
-  find(): Promise<Role[]>;
-  findById(id: string): Promise<Role | undefined>;
-  findByName(name: string): Promise<Role | undefined>;
-  create(data: RoleDTO): Promise<Role>;
-  save(data: Role): Promise<Role>;
-  delete(data: Role): Promise<void>;
+export default interface IRoomsRepository {
+  find(): Promise<Room[]>;
+  findById(id: string): Promise<Room | undefined>;
+  findByName(name: string): Promise<Room | undefined>;
+  create(data: CreateRoomDTO): Promise<Room>;
+  save(data: Room): Promise<Room>;
+  delete(data: Room): Promise<void>;
 }

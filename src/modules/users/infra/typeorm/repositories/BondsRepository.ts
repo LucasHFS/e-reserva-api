@@ -29,9 +29,9 @@ class BondsRepository implements IBondsRepository {
   }
 
   public async findByName(name: string): Promise<Bond | undefined> {
-    const role = await this.ormRepository.findOne({ where: { name } });
+    const bond = await this.ormRepository.findOne({ where: { name } });
 
-    return role;
+    return bond;
   }
 
   public async create({ name }: ICreateBondDTO): Promise<Bond> {
