@@ -15,6 +15,9 @@ class Room {
   name: string;
 
   @Column()
+  type: string;
+
+  @Column()
   description: string;
 
   @CreateDateColumn()

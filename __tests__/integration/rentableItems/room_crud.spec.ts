@@ -39,6 +39,7 @@ describe('CreateSurvivor', () => {
       .send({
         name: '101',
         description: 'default classroom',
+        type: 'classroom',
       });
 
     expect(response.status).toBe(201);
@@ -47,6 +48,7 @@ describe('CreateSurvivor', () => {
         id: expect.any(String),
         name: '101',
         description: 'default classroom',
+        type: 'classroom',
         created_at: expect.any(String),
         updated_at: expect.any(String),
       }),
@@ -59,6 +61,7 @@ describe('UpdateRoom', () => {
     const newRoom = new Room();
     newRoom.name = '102';
     newRoom.description = 'new descriptions';
+    newRoom.type = 'classroom';
 
     const room = await roomsRepository.save(newRoom);
 
@@ -68,6 +71,7 @@ describe('UpdateRoom', () => {
       .send({
         name: '102',
         description: 'new descriptions',
+        type: 'classroom',
       });
 
     expect(response.status).toBe(200);
@@ -76,6 +80,7 @@ describe('UpdateRoom', () => {
         id: expect.any(String),
         name: '102',
         description: 'new descriptions',
+        type: 'classroom',
         created_at: expect.any(String),
         updated_at: expect.any(String),
       }),
@@ -88,6 +93,7 @@ describe('DeleteRoom', () => {
     const newRoom = new Room();
     newRoom.name = '101';
     newRoom.description = 'description';
+    newRoom.type = 'classroom';
 
     const room = await roomsRepository.save(newRoom);
 

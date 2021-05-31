@@ -35,13 +35,14 @@ export default class RoomsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, description } = request.body;
+    const { name, description, type } = request.body;
 
     const createRoom = container.resolve(CreateRoomService);
 
     const room = await createRoom.execute({
       name,
       description,
+      type,
     });
 
     return response.status(201).json(room);
@@ -49,7 +50,7 @@ export default class RoomsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { name, description } = request.body;
+    const { name, description, type } = request.body;
 
     if (!id) {
       throw new AppError('campo id é obrigatório', 404);
@@ -60,6 +61,7 @@ export default class RoomsController {
     const room = await updateRoom.execute({
       id,
       name,
+      type,
       description,
     });
 

@@ -3,12 +3,13 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import Room from '../../infra/typeorm/entities/Room';
 import IRoomsRepository from '../../repositories/IRoomsRepository';
-import dataValidator from '../../validators/dataValidator';
+import roomValidator from '../../validators/roomValidator';
 
 interface IRequest {
   id: string;
   name: string;
   description: string;
+  type: string;
 }
 
 @injectable()
@@ -18,9 +19,15 @@ class UpdateRoomService {
     private roomsRepository: IRoomsRepository,
   ) {}
 
-  public async execute({ id, name, description }: IRequest): Promise<Room> {
-    await dataValidator({
+  public async execute({
+    id,
+    name,
+    description,
+    type,
+  }: IRequest): Promise<Room> {
+    await roomValidator({
       name,
+      type,
       description,
     });
     const thisRoom = await this.roomsRepository.findById(id);

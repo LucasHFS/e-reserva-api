@@ -34,10 +34,15 @@ class RoomsRepository implements IRoomsRepository {
     return room;
   }
 
-  public async create({ name, description }: ICreateRoomDTO): Promise<Room> {
+  public async create({
+    name,
+    description,
+    type,
+  }: ICreateRoomDTO): Promise<Room> {
     const room = this.ormRepository.create({
       name,
       description,
+      type,
     });
 
     await this.ormRepository.save(room);
