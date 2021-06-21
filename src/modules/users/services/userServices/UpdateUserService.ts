@@ -1,6 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+import CoursesRepository from '@modules/users/infra/typeorm/repositories/CoursesRepository';
+import { getCustomRepository } from 'typeorm';
+import BondsRepository from '@modules/users/infra/typeorm/repositories/BondsRepository';
+import RolesRepository from '@modules/users/infra/typeorm/repositories/RolesRepository';
 import User from '../../infra/typeorm/entities/User';
 import IUsersRepository from '../../repositories/IUsersRepository';
 import updateUserValidator from '../../validators/userValidators/updateUserValidators';
@@ -97,11 +101,38 @@ class UpdateUserService {
       thisUser.password = hashedNewPassword;
     }
 
+    const coursesRepository = getCustomRepository(CoursesRepository);
+    const course = await coursesRepository.findById(courseId);
+
+    if (!course) {
+      throw new AppError('id do curso não encontrado', 404);
+    }
+
+    if (thisUser.bondId !== bondId) {
+      const bondsRepository = getCustomRepository(BondsRepository);
+      const bond = await bondsRepository.findById(bondId);
+
+      if (!bond) {
+        throw new AppError('id do vínculo não encontrado', 404);
+      }
+      thisUser.bond = bond;
+    }
+
+    if (thisUser.roleId !== roleId) {
+      const rolesRepository = getCustomRepository(RolesRepository);
+      const role = await rolesRepository.findById(roleId);
+
+      if (!role) {
+        throw new AppError('id do vínculo não encontrado', 404);
+      }
+      thisUser.role = role;
+    }
+
     thisUser.name = name;
     thisUser.cpf = cpf;
     thisUser.email = email;
     thisUser.phone = phone;
-    thisUser.updated_at = new Date();
+    thisUser.courses = [course];
 
     const user = await this.usersRepository.save(thisUser);
 

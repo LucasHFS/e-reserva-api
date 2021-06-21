@@ -8,7 +8,7 @@ export default class CourseSeeder1619209477793 implements MigrationInterface {
         { name: 'Sem Vínculo de Curso com a UEG' },
         { name: 'Arquitetura e Urbanismo' },
         { name: 'Ciências Biológicas' },
-        { name: 'Engenharia Agrícoila' },
+        { name: 'Engenharia Agrícola' },
         { name: 'Engenharia Civil' },
         { name: 'Farmácia' },
         { name: 'Física' },

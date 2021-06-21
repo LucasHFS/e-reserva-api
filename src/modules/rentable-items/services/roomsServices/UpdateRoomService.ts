@@ -45,7 +45,7 @@ class UpdateRoomService {
 
     thisRoom.name = name;
     thisRoom.description = description;
-
+    thisRoom.type = type;
     const room = await this.roomsRepository.save(thisRoom);
 
     return room;
