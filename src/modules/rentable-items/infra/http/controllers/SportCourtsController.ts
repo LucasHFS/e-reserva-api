@@ -28,7 +28,7 @@ export default class SportCourtsController {
     const sportCourt = await sportCourtsRepository.findById(id);
 
     if (!sportCourt) {
-      throw new AppError('Papel não encontrado', 404);
+      throw new AppError('Quadra não encontrada', 404);
     }
 
     return response.status(200).json(sportCourt);

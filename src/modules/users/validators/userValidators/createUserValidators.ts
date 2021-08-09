@@ -1,7 +1,7 @@
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import * as Yup from 'yup';
+import Yup from '@shared/helpers/validator';
 
 interface IRequest {
   name: string;

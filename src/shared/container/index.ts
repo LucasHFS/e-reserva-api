@@ -24,6 +24,18 @@ import EquipmentsRepository from '@modules/rentable-items/infra/typeorm/reposito
 import ISportCourtsRepository from '@modules/rentable-items/repositories/ISportCourtsRepository';
 import SportCourtsRepository from '@modules/rentable-items/infra/typeorm/repositories/SportCourtsRepository';
 
+import IEquipmentReservesRepository from '@modules/reserves/repositories/IEquipmentReservesRepository';
+import EquipmentReservesRepository from '@modules/reserves/infra/typeorm/repositories/EquipmentReservesRepository';
+
+import IRoomReservesRepository from '@modules/reserves/repositories/IRoomReservesRepository';
+import RoomReservesRepository from '@modules/reserves/infra/typeorm/repositories/RoomReservesRepository';
+
+import ISportCourtReservesRepository from '@modules/reserves/repositories/ISportCourtReservesRepository';
+import SportCourtReservesRepository from '@modules/reserves/infra/typeorm/repositories/SportCourtReservesRepository';
+
+import IReservesRepository from '@modules/reserves/repositories/IReservesRepository';
+import ReservesRepository from '@modules/reserves/infra/typeorm/repositories/ReservesRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -57,4 +69,24 @@ container.registerSingleton<IEquipmentsRepository>(
 container.registerSingleton<ISportCourtsRepository>(
   'SportCourtsRepository',
   SportCourtsRepository,
+);
+
+container.registerSingleton<IEquipmentReservesRepository>(
+  'EquipmentReservesRepository',
+  EquipmentReservesRepository,
+);
+
+container.registerSingleton<IRoomReservesRepository>(
+  'RoomReservesRepository',
+  RoomReservesRepository,
+);
+
+container.registerSingleton<ISportCourtReservesRepository>(
+  'SportCourtReservesRepository',
+  SportCourtReservesRepository,
+);
+
+container.registerSingleton<IReservesRepository>(
+  'ReservesRepository',
+  ReservesRepository,
 );

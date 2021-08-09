@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import Yup from '@shared/helpers/validator';
 
 interface IRequest {
   name: string;

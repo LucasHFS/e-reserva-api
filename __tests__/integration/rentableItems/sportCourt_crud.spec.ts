@@ -13,7 +13,7 @@ let connection: Connection;
 
 beforeAll(async () => {
   connection = await createConnection('test-connection');
-  await connection.query('DELETE FROM sportCourts');
+  await connection.query('DELETE FROM sport_courts');
   await connection.query('DELETE FROM user_courses');
   await connection.query('DELETE FROM users');
   await connection.query('DELETE FROM courses');

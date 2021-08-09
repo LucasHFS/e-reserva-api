@@ -7,7 +7,7 @@ export default class CreateSportCourts1620091563408
 
     await queryRunner.createTable(
       new Table({
-        name: 'sportcourts',
+        name: 'sport_courts',
         columns: [
           {
             name: 'id',

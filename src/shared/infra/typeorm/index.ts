@@ -6,6 +6,7 @@ require('dotenv').config({
 
 export default async (name?: string): Promise<Connection> => {
   return createConnection({
+    // logging: ["query", "error"],
     name: name || 'default',
     type: 'postgres',
     host: process.env.TYPEORM_HOST,

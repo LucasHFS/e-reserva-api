@@ -4,6 +4,7 @@ import createConnection from '@shared/infra/typeorm';
 import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
+import { errors } from 'celebrate';
 
 import errorHandler from '@shared/errors/errorHandler';
 import routes from './routes';
@@ -19,6 +20,7 @@ app.use(express.json());
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 createConnection().then(conn => {
   app.use(routes);
+  app.use(errors());
   app.use(errorHandler);
 });
 
