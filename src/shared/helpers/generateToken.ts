@@ -7,7 +7,7 @@ import AuthenticateUserService from '@modules/users/services/userServices/Authen
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 
-const createConnection = async (): Promise<string> => {
+const generateToken = async (): Promise<string> => {
   const usersRepository = new UsersRepository();
   const hashProvider = new BCryptHashProvider();
   const authenticateUserService = new AuthenticateUserService(
@@ -43,4 +43,4 @@ const createConnection = async (): Promise<string> => {
   return token;
 };
 
-export default createConnection;
+export default generateToken;

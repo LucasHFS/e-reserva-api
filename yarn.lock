@@ -3535,6 +3535,11 @@ jest@26.0.0:
     import-local "^3.0.2"
     jest-cli "^26.0.0"
 
+joi-translation-pt-br@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/joi-translation-pt-br/-/joi-translation-pt-br-0.0.1.tgz#8185c5bf6ab09ec5a376258522e1b36869dd4259"
+  integrity sha512-oiSlxM7Z7GwfdtctBUWArFVmAcmMvA+KugaJuK+hlQ5ytDr38xrv+4T9pzFjJbxGSAxcwsMNJIZBMA1cN88xmg==
+
 joi@17.x.x:
   version "17.4.0"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.4.0.tgz#b5c2277c8519e016316e49ababd41a1908d9ef20"

@@ -30,7 +30,8 @@ export default function ensureAuthenticated(
     };
 
     return next();
-  } catch {
-    throw new AppError('Acesso não autorizado', 401);
+  } catch (err) {
+    console.log(err.message);
+    throw new AppError(err.message, 401);
   }
 }
