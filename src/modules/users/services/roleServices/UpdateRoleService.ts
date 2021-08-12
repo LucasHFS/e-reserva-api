@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import Role from '../../infra/typeorm/entities/Role';
 import IRolesRepository from '../../repositories/IRolesRepository';
+import roleValidator from '@modules/users/validators/roleValidators';
 
 interface IRequest {
   id: string;
@@ -18,6 +19,8 @@ class UpdateRoleService {
   ) {}
 
   public async execute({ id, name, description }: IRequest): Promise<Role> {
+    await roleValidator({name, description})
+
     const thisRole = await this.rolesRepository.findById(id);
 
     if (!thisRole) {

@@ -13,7 +13,7 @@ reservesRoutes.use(ensureAuthenticated);
 
 reservesRoutes.get('/', reservesController.index); 
 
-reservesRoutes.get('/pending', pendingReservesController.index); 
+reservesRoutes.get('/pending', ensureAdminPermissions, pendingReservesController.index); 
 
 reservesRoutes.put('/:id/accept', ensureAdminPermissions, pendingReservesController.accept);
 reservesRoutes.put('/:id/deny', ensureAdminPermissions, pendingReservesController.deny);

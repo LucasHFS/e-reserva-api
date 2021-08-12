@@ -13,6 +13,18 @@ class AcceptReserveService {
   ) {}
 
   public async execute({ reserve_id }: IRequest): Promise<unknown> {
+    if(reserve_id === ''){
+      return {
+        "status": "erro",
+        "message": "Validação falhou.",
+        "errors": {
+            "reserve_id": [
+                "é um campo obrigatório"
+            ]
+        }
+      }
+    }
+
     const reserve = await this.ReservesRepository.acceptReserve(
       reserve_id,
     );

@@ -6,7 +6,7 @@ interface IRequest {
 }
 
 const createSessionValidator = ({ cpf, password }: IRequest): void => {
-  // TODO: Validate CNPJ
+  // TODO: Validate CPF
 
   if (!cpf) {
     throw new AppError('CPF é um campo obrigatório', 400);

@@ -5,7 +5,6 @@ import { startHourArray } from  '@shared/constants/hourArrays';
 
 
 interface IRequest {
-  user_id: string;
   month: number;
   year: number;
   day: number;
