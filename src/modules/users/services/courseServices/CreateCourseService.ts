@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import Course from '../../infra/typeorm/entities/Course';
 import ICoursesRepository from '../../repositories/ICoursesRepository';
+import courseValidator from '@modules/users/validators/courseValidators';
 
 interface IRequest {
   name: string;
@@ -17,6 +18,8 @@ class CreateCourseService {
 
   public async execute({ name }: IRequest): Promise<Course> {
     const checkCourseExists = await this.coursesRepository.findByName(name);
+
+    await courseValidator({name});
 
     if (checkCourseExists) {
       throw new AppError('Curso já existente', 400);

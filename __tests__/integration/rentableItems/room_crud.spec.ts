@@ -16,6 +16,7 @@ beforeAll(async () => {
   connection = await createConnection('test-connection');
   await connection.query('DELETE FROM courses');
   await connection.query('DELETE FROM users');
+  await connection.query('DELETE FROM roles');
   await connection.query('DELETE FROM bonds');
   await connection.query('DELETE FROM rooms');
 
@@ -31,7 +32,7 @@ afterAll(async () => {
   await mainConnection.close();
 });
 
-describe('CreateSurvivor', () => {
+describe('CreateRoom', () => {
   it('adds a room to the database', async () => {
     const response = await request(app)
       .post('/rooms')

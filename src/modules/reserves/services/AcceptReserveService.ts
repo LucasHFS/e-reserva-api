@@ -1,3 +1,4 @@
+import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import IReservesRepository from '../repositories/IReservesRepository';
 
@@ -13,6 +14,7 @@ class AcceptReserveService {
   ) {}
 
   public async execute({ reserve_id }: IRequest): Promise<unknown> {
+
     const reserve = await this.ReservesRepository.acceptReserve(
       reserve_id,
     );

@@ -19,10 +19,9 @@ const generateToken = async (): Promise<string> => {
   const rolesRepository = getCustomRepository(RolesRepository);
   const coursesRepository = getCustomRepository(CoursesRepository);
 
-  const bond = await bondsRepository.create({ name: 'bondx' });
-  const role = await rolesRepository.findByName('Administrador');
-  const course = await coursesRepository.create({ name: 'coursex' });
-  if (!role) return '';
+  const bond = await bondsRepository.create({ name: 'bx1' });
+  const role = await rolesRepository.create({ name: 'Administrador', description: 'abc' });
+  const course = await coursesRepository.create({ name: 'crsex' });
 
   await usersRepository.create({
     name: 'Lucas Silva',
@@ -39,7 +38,6 @@ const generateToken = async (): Promise<string> => {
     cpf: '70142411888',
     password: '123456',
   });
-
   return token;
 };
 

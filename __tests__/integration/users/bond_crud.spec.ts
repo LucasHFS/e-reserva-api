@@ -18,6 +18,7 @@ beforeAll(async () => {
   await connection.query('DELETE FROM users');
   await connection.query('DELETE FROM courses');
   await connection.query('DELETE FROM bonds');
+  await connection.query('DELETE FROM roles');
 
   const token = await generateToken();
 
@@ -40,7 +41,7 @@ describe('CreateBond', () => {
         name: 'Bond A',
       });
 
-    // expect(response.status).toBe(201);
+    expect(response.status).toBe(201);
     expect(response.body).toEqual(
       expect.objectContaining({
         id: expect.any(String),
@@ -66,7 +67,7 @@ describe('UpdateBond', () => {
         name: 'Bond updated',
       });
 
-    // expect(response.status).toBe(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
         id: expect.any(String),

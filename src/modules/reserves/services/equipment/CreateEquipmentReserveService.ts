@@ -26,6 +26,7 @@ class CreateEquipmentReserveService {
     starts_at,
     ends_at,
   }: IRequest): Promise<EquipmentReserve> {
+
     const equipmentsRepository = new EquipmentsRepository();
     const usersRepository = new UsersRepository();
 

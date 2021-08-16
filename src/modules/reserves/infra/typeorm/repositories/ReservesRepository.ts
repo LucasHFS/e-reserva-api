@@ -67,60 +67,69 @@ class ReservesRepository implements IReservesRepository {
   public async acceptReserve(
     reserve_id: string,
   ): Promise<unknown> {
-    const equipmentReserve = await this.equipmentRepository.findOne(reserve_id);
-    
-    if(equipmentReserve){
-
-      equipmentReserve.status = 'accepted';
-      return this.equipmentRepository.save(equipmentReserve);
-
-    } else {
-      const roomReserve = await this.equipmentRepository.findOne(reserve_id);
-      
+    try{
+      const roomReserve = await this.roomRepository.findOne(reserve_id);
+        
       if(roomReserve){
         roomReserve.status = 'accepted';
         return this.roomRepository.save(roomReserve);
-      } else {
-        const sportCourtReserve = await this.equipmentRepository.findOne(reserve_id);
 
-        if(sportCourtReserve){
-          sportCourtReserve.status = 'accepted';
-          return this.sportCourtRepository.save(sportCourtReserve);
-        } else {
-          throw new AppError('reserve not found', 404);
+      } else {
+        const equipmentReserve = await this.equipmentRepository.findOne(reserve_id);
+
+        if(equipmentReserve){
+          equipmentReserve.status = 'accepted';
+          return this.equipmentRepository.save(equipmentReserve);
+
+        } else {  
+            const sportCourtReserve = await this.sportCourtRepository.findOne(reserve_id);
+
+            if(sportCourtReserve){
+              sportCourtReserve.status = 'accepted';
+              return this.sportCourtRepository.save(sportCourtReserve);
+
+            } else {
+              throw new AppError('reserva não encontrada', 404);
+            }
+          }
         }
+      }catch(e){
+        throw new AppError('Não foi possível localizar essa reserva', 404)
       }
     }
-  }
 
 
   public async denyReserve(
     reserve_id: string,
   ): Promise<unknown> {
-    const equipmentReserve = await this.equipmentRepository.findOne(reserve_id);
-    
-    if(equipmentReserve){
-
-      equipmentReserve.status = 'denied';
-      return this.equipmentRepository.save(equipmentReserve);
-
-    } else {
-      const roomReserve = await this.equipmentRepository.findOne(reserve_id);
+    try {
+      const equipmentReserve = await this.equipmentRepository.findOne(reserve_id);
       
-      if(roomReserve){
-        roomReserve.status = 'denied';
-        return this.roomRepository.save(roomReserve);
-      } else {
-        const sportCourtReserve = await this.equipmentRepository.findOne(reserve_id);
+      if(equipmentReserve){
 
-        if(sportCourtReserve){
-          sportCourtReserve.status = 'denied';
-          return this.sportCourtRepository.save(sportCourtReserve);
+        equipmentReserve.status = 'denied';
+        return this.equipmentRepository.save(equipmentReserve);
+
+      } else {
+        const roomReserve = await this.roomRepository.findOne(reserve_id);
+        
+        if(roomReserve){
+          roomReserve.status = 'denied';
+          return this.roomRepository.save(roomReserve);
         } else {
-          throw new AppError('reserve not found', 404);
+          const sportCourtReserve = await this.sportCourtRepository.findOne(reserve_id);
+
+          if(sportCourtReserve){
+            sportCourtReserve.status = 'denied';
+            return this.sportCourtRepository.save(sportCourtReserve);
+          } else {
+            throw new AppError('reserve not found', 404);
+          }
         }
       }
-    }
+  }catch(e){
+    throw new AppError('Não foi possível localizar essa reserva', 404)
+  }
   }
 }
 

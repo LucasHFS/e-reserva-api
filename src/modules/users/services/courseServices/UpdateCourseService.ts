@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import Course from '../../infra/typeorm/entities/Course';
 import ICoursesRepository from '../../repositories/ICoursesRepository';
+import courseValidator from '@modules/users/validators/courseValidators';
 
 interface IRequest {
   id: string;
@@ -17,6 +18,8 @@ class UpdateCourseService {
   ) {}
 
   public async execute({ id, name }: IRequest): Promise<Course> {
+    await courseValidator({name});
+
     const thisCourse = await this.coursesRepository.findById(id);
 
     if (!thisCourse) {

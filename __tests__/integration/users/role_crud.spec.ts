@@ -3,16 +3,14 @@ import { Connection, getConnection, getCustomRepository } from 'typeorm';
 import app from '@shared/infra/http/app';
 
 import createConnection from '@shared/infra/typeorm';
-import CoursesRepository from '@modules/users/infra/typeorm/repositories/CoursesRepository';
-import Course from '@modules/users/infra/typeorm/entities/Course';
+import RolesRepository from '@modules/users/infra/typeorm/repositories/RolesRepository';
+import Role from '@modules/users/infra/typeorm/entities/Role';
 
 import generateToken from '@shared/helpers/generateToken';
 
-let admin_token: string;
-
 let connection: Connection;
 
-let coursesRepository: CoursesRepository;
+let admin_token: string;
 
 beforeAll(async () => {
   connection = await createConnection('test-connection');
@@ -21,8 +19,6 @@ beforeAll(async () => {
   await connection.query('DELETE FROM courses');
   await connection.query('DELETE FROM bonds');
   await connection.query('DELETE FROM roles');
-
-  coursesRepository = getCustomRepository(CoursesRepository);
 
   const token = await generateToken();
 
@@ -36,20 +32,22 @@ afterAll(async () => {
   await mainConnection.close();
 });
 
-describe('CreateCourse', () => {
-  it('adds a course to the database', async () => {
+describe('CreateRole', () => {
+  it('adds a role to the database', async () => {
     const response = await request(app)
-      .post('/courses')
+      .post('/roles')
       .set('authorization', `bearer ${admin_token}`)
       .send({
-        name: 'Course A',
+        name: 'Role A',
+        description: 'description role A',
       });
 
     // expect(response.status).toBe(201);
     expect(response.body).toEqual(
       expect.objectContaining({
         id: expect.any(String),
-        name: 'Course A',
+        name: 'Role A',
+        description: 'description role A',
         created_at: expect.any(String),
         updated_at: expect.any(String),
       }),
@@ -57,25 +55,28 @@ describe('CreateCourse', () => {
   });
 });
 
-describe('UpdateCourse', () => {
-  it('updates a course of the database', async () => {
-    const newCourse = new Course();
-    newCourse.name = 'Course B';
-
-    const course = await coursesRepository.save(newCourse);
+describe('UpdateRole', () => {
+  it('updates a role of the database', async () => {
+    const newRole = new Role();
+    newRole.name = 'Role B';
+    newRole.description = 'D B';
+    const rolesRepository = getCustomRepository(RolesRepository);
+    const role = await rolesRepository.save(newRole);
 
     const response = await request(app)
-      .put(`/courses/${course.id}`)
+      .put(`/roles/${role.id}`)
       .set('authorization', `bearer ${admin_token}`)
       .send({
-        name: 'Course updated',
+        name: 'Role updated',
+        description: 'description role A',
       });
 
     // expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
         id: expect.any(String),
-        name: 'Course updated',
+        name: 'Role updated',
+        description: 'description role A',
         created_at: expect.any(String),
         updated_at: expect.any(String),
       }),
@@ -83,19 +84,20 @@ describe('UpdateCourse', () => {
   });
 });
 
-describe('DeleteCourse', () => {
-  it('deletes a course', async () => {
-    const newCourse = new Course();
-    newCourse.name = 'Course C';
-
-    const course = await coursesRepository.save(newCourse);
+describe('DeleteRole', () => {
+  it('deletes a role', async () => {
+    const newRole = new Role();
+    newRole.name = 'Role C';
+    newRole.description = 'Desc';
+    const rolesRepository = getCustomRepository(RolesRepository);
+    const role = await rolesRepository.save(newRole);
     const response = await request(app)
-      .delete(`/courses/${course.id}`)
+      .delete(`/roles/${role.id}`)
       .set('authorization', `bearer ${admin_token}`)
       .send();
 
-    expect(response.status).toBe(204);
-    const deletedCourse = await coursesRepository.findById(course.id);
-    expect(deletedCourse).toBeFalsy();
+    // expect(response.status).toBe(204);
+    const deletedRole = await rolesRepository.findById(role.id);
+    expect(deletedRole).toBeFalsy();
   });
 });
