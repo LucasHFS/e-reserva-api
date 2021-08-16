@@ -23,6 +23,7 @@ beforeAll(async () => {
   connection = await createConnection('test-connection');
   await connection.query('DELETE FROM user_courses');
   await connection.query('DELETE FROM users');
+  await connection.query('DELETE FROM roles');
   await connection.query('DELETE FROM courses');
   await connection.query('DELETE FROM bonds');
 
@@ -45,8 +46,7 @@ afterAll(async () => {
 describe('CreateUser', () => {
   it('adds a user to the database', async () => {
     const bond = await bondsRepository.create({ name: 'bond aaa' });
-    const role = await rolesRepository.findByName('Administrador');
-    if (!role) return;
+    const role = await rolesRepository.create({name: 'adm1', description: 'lul'});
     const course = await coursesRepository.create({ name: 'course aaa' });
 
     const response = await request(app).post('/users').send({
@@ -99,8 +99,7 @@ describe('CreateUser', () => {
 
   it("doesn't add a user to the database with invalid data", async () => {
     const bond = await bondsRepository.create({ name: 'bond bbb' });
-    const role = await rolesRepository.findByName('Administrador');
-    if (!role) return;
+    const role = await rolesRepository.create({name: 'adm2', description: 'lul'});
     const course = await coursesRepository.create({ name: 'course bbb' });
 
     const response = await request(app).post('/users').send({
@@ -125,8 +124,7 @@ describe('CreateUser', () => {
 
   it("doesn't add a user to the database with repeated cpf", async () => {
     const bond = await bondsRepository.create({ name: 'bond ccc' });
-    const role = await rolesRepository.findByName('Administrador');
-    if (!role) return;
+    const role = await rolesRepository.create({name: 'adm3', description: 'lul'});
     const course = await coursesRepository.create({ name: 'course ccc' });
 
     const newUser = new User();
@@ -165,8 +163,7 @@ describe('CreateUser', () => {
 
   it("doesn't add a user to the database with repeated email", async () => {
     const bond = await bondsRepository.create({ name: 'bond ddd' });
-    const role = await rolesRepository.findByName('Administrador');
-    if (!role) return;
+    const role = await rolesRepository.create({name: 'adm4', description: 'lul'});
     const course = await coursesRepository.create({ name: 'course ddd' });
 
     const newUser = new User();
@@ -207,8 +204,7 @@ describe('CreateUser', () => {
 describe('UpdateUser', () => {
   it('updates a user to the database without change password', async () => {
     const bond = await bondsRepository.create({ name: 'bond eee' });
-    const role = await rolesRepository.findByName('Administrador');
-    if (!role) return;
+    const role = await rolesRepository.create({name: 'adm5', description: 'lul'});
     const course = await coursesRepository.create({ name: 'course eee' });
 
     const newUser = new User();
@@ -277,9 +273,8 @@ describe('UpdateUser', () => {
     const hashProvider = new BCryptHashProvider();
     const bond = await bondsRepository.create({ name: 'bond fff' });
     const course = await coursesRepository.create({ name: 'course fff' });
-    const role = await rolesRepository.findByName('Administrador');
-    if (!role) return;
-    if (!bond || !role || !course) return;
+    const role = await rolesRepository.create({name: 'adm6', description: 'lul'});
+
     const newUser = new User();
     const pass = '123456';
     Object.assign(newUser, {
@@ -351,9 +346,7 @@ describe('DeleteUser', () => {
   it('deletes a user', async () => {
     const bond = await bondsRepository.create({ name: 'bond ggg' });
     const course = await coursesRepository.create({ name: 'course ggg' });
-    const role = await rolesRepository.findByName('Administrador');
-    if (!role) return;
-    if (!bond || !role || !course) return;
+    const role = await rolesRepository.create({name: 'adm7', description: 'lul'});
     const newUser = new User();
     Object.assign(newUser, {
       name: 'Lucas Silva',

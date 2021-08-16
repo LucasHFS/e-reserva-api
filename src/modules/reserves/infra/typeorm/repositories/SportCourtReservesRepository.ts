@@ -1,10 +1,12 @@
-import { getRepository, Repository, Raw } from 'typeorm';
+import { getRepository, Repository, Raw, EntityRepository } from 'typeorm';
 import ICreateSportCourtReserveDTO from '@modules/reserves/dtos/ICreateSportCourtReserveDTO';
 import ISportCourtReservesRepository from '@modules/reserves/repositories/ISportCourtReservesRepository';
 import IFindAllInDayFromUserDTO from '@modules/reserves/dtos/IFindAllInDayFromUserDTO';
 import IFindAllSportCourtInDayDTO from '@modules/reserves/dtos/IFindAllSportCourtInDayDTO';
 import SportCourtReserve from '../entities/SportCourtReserve';
 
+
+@EntityRepository(SportCourtReserve)
 class SportCourtReserveRepository implements ISportCourtReservesRepository {
   private ormRepository: Repository<SportCourtReserve>;
 

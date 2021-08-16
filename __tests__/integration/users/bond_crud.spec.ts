@@ -18,6 +18,7 @@ beforeAll(async () => {
   await connection.query('DELETE FROM users');
   await connection.query('DELETE FROM courses');
   await connection.query('DELETE FROM bonds');
+  await connection.query('DELETE FROM roles');
 
   const token = await generateToken();
 

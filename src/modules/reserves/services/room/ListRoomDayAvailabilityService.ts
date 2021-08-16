@@ -31,11 +31,6 @@ class ListRoomDayAvailabilityService {
     year,
   }: IRequest): Promise<IResponse> {
     
-
-
-    console.log('startHourArray')
-    console.log(startHourArray)
-
     const reserves = await this.RoomReservesRepository.findAllInDay(
       {
         room_id,

@@ -1,3 +1,4 @@
+import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import IReservesRepository from '../repositories/IReservesRepository';
 
@@ -13,17 +14,6 @@ class DenyReserveService {
   ) {}
 
   public async execute({ reserve_id }: IRequest): Promise<unknown> {
-    if(reserve_id === ''){
-      return {
-        "status": "erro",
-        "message": "Validação falhou.",
-        "errors": {
-            "reserve_id": [
-                "é um campo obrigatório"
-            ]
-        }
-      }
-    }
     const reserve = await this.ReservesRepository.denyReserve(
       reserve_id,
     );
