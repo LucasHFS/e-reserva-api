@@ -1,10 +1,11 @@
-import { getRepository, Repository, Raw } from 'typeorm';
+import { getRepository, Repository, Raw, EntityRepository } from 'typeorm';
 import ICreateRoomReserveDTO from '@modules/reserves/dtos/ICreateRoomReserveDTO';
 import IRoomReservesRepository from '@modules/reserves/repositories/IRoomReservesRepository';
 import IFindAllInDayFromUserDTO from '@modules/reserves/dtos/IFindAllInDayFromUserDTO';
 import RoomReserve from '../entities/RoomReserve';
 import IFindAllRoomInDayDTO from '@modules/reserves/dtos/IFindAllRoomInDayDTO';
 
+@EntityRepository(RoomReserve)
 class RoomReserveRepository implements IRoomReservesRepository {
   private ormRepository: Repository<RoomReserve>;
 

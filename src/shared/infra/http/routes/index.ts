@@ -11,7 +11,7 @@ import equipmentsRouter from '@modules/rentable-items/infra/http/routes/equipmen
 import roomsRouter from '@modules/rentable-items/infra/http/routes/rooms.routes';
 import sportCourtsRouter from '@modules/rentable-items/infra/http/routes/sportCourts.routes';
 
-import passwordRouter from '@modules/users/infra/http/routes/password.routes';
+// import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 
 import reserves from '@modules/reserves/infra/http/routes/reserves.routes';
 import equipmentReservesRoutes from '@modules/reserves/infra/http/routes/equipmentReserves.routes';
@@ -32,7 +32,7 @@ routes.use('/courses', coursesRouter);
 routes.use('/equipments', ensureAuthenticated, equipmentsRouter);
 routes.use('/rooms', ensureAuthenticated, roomsRouter);
 routes.use('/sportCourts', ensureAuthenticated, sportCourtsRouter);
-routes.use('/password', passwordRouter);
+// routes.use('/password', passwordRouter);
 
 routes.use('/my_reserves', ensureAuthenticated, myReserves);
 

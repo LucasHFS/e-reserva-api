@@ -35,7 +35,6 @@ export default class CustomMailProvider implements IMailProvider {
     from,
     templateData,
   }: ISendMailDTO): Promise<void> {
-    console.log(' custom working');
     const message = await this.client.sendMail({
       from: {
         name: from?.name || 'Equipe Gobarber',

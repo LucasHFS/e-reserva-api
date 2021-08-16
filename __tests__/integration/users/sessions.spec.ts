@@ -39,8 +39,14 @@ describe('CreateSession', () => {
   it('logs in to the system', async () => {
     const hashProvider = new BCryptHashProvider();
     const userRepository = getRepository(User);
-    const role = await rolesRepository.first();
-    const bond = await bondsRepository.first();
+    
+    const role = await rolesRepository.create({
+      name: 'nmrndn1' ,
+      description:'dscrption',
+    });
+    const bond = await bondsRepository.create({
+      name: 'nmrndn1' ,
+    });
 
     const user = await userRepository.save({
       name: 'Lucas Silva',

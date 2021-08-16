@@ -17,6 +17,7 @@ beforeAll(async () => {
   await connection.query('DELETE FROM equipments');
   await connection.query('DELETE FROM user_courses');
   await connection.query('DELETE FROM users');
+  await connection.query('DELETE FROM roles');
   await connection.query('DELETE FROM courses');
   await connection.query('DELETE FROM bonds');
 
@@ -34,7 +35,7 @@ afterAll(async () => {
   await mainConnection.close();
 });
 
-describe('CreateSurvivor', () => {
+describe('CreateEquipment', () => {
   it('adds a equipment to the database', async () => {
     const response = await request(app)
       .post('/equipments')

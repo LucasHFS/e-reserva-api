@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import Bond from '../../infra/typeorm/entities/Bond';
 import IBondsRepository from '../../repositories/IBondsRepository';
+import bondValidator from '@modules/users/validators/bondValidators';
 
 interface IRequest {
   id: string;
@@ -17,6 +18,7 @@ class UpdateBondService {
   ) {}
 
   public async execute({ id, name }: IRequest): Promise<Bond> {
+    await bondValidator({ name });
     const thisBond = await this.bondsRepository.findById(id);
 
     if (!thisBond) {

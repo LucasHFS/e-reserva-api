@@ -1,10 +1,11 @@
-import { getRepository, Repository, Raw } from 'typeorm';
+import { getRepository, Repository, Raw, EntityRepository } from 'typeorm';
 import ICreateEquipmentReserveDTO from '@modules/reserves/dtos/ICreateEquipmentReserveDTO';
 import IEquipmentReservesRepository from '@modules/reserves/repositories/IEquipmentReservesRepository';
 import IFindAllInDayFromUserDTO from '@modules/reserves/dtos/IFindAllInDayFromUserDTO';
 import IFindAllEquipmentInDayDTO from '@modules/reserves/dtos/IFindAllEquipmentInDayDTO';
 import EquipmentReserve from '../entities/EquipmentReserve';
 
+@EntityRepository(EquipmentReserve)
 class EquipmentReserveRepository implements IEquipmentReservesRepository {
   private ormRepository: Repository<EquipmentReserve>;
 
