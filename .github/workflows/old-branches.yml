@@ -1,6 +1,6 @@
 on:
   schedule:
-    # Run every day at 9 am.
+    # Run ee every day at 9 am.
     - cron:  '*/2 * * * *'
 name: Old Branch Reminder
 jobs:
