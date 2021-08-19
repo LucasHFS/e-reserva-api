@@ -45,6 +45,22 @@ class ReservesRepository implements IReservesRepository {
     });
     return { equipmentsReserves, roomsReserves, sportCourtsReserves };
   }
+
+  public async countPendingReserves(): Promise<number> {
+    const equipmentsReserves = await this.equipmentRepository.count({
+      relations: ['user', 'equipment'],
+      where: {  status: 'pending'  }
+    });
+    const roomsReserves = await this.roomRepository.count({
+      relations: ['user', 'room'],
+      where: {  status: 'pending'  }
+    });
+    const sportCourtsReserves = await this.sportCourtRepository.count({
+      relations: ['user', 'sport_court'],
+      where: {  status: 'pending'  }
+    });
+    return equipmentsReserves + roomsReserves + sportCourtsReserves;
+  }
   
   public async getAllReservesByUser(
     user_id: string,

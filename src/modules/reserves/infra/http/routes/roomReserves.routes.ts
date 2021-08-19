@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { messages } from 'joi-translation-pt-br';
 import RoomReservesController from '../controllers/room/RoomReservesController';
 
@@ -12,7 +11,15 @@ const reservesRoomsDayAvailabilityController = new ReservesRoomDayAvailabilityCo
 
 const roomReservesController = new RoomReservesController();
 
-roomReservesRouter.use(ensureAuthenticated);
+roomReservesRouter.get(
+  '/',
+  roomReservesController.all,
+);
+
+roomReservesRouter.get(
+  '/:id',
+  roomReservesController.findOne,
+);
 
 roomReservesRouter.post(
   '/',

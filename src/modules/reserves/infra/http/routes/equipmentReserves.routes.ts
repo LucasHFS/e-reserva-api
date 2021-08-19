@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { messages } from 'joi-translation-pt-br';
 import EquipmentReservesController from '../controllers/equipment/EquipmentReservesController';
 
@@ -12,7 +11,16 @@ const reservesEquipmentsDayAvailabilityController = new ReservesEquipmentDayAvai
 
 const equipmentReservesController = new EquipmentReservesController();
 
-equipmentReservesRouter.use(ensureAuthenticated);
+
+equipmentReservesRouter.get(
+  '/',
+  equipmentReservesController.all,
+);
+
+equipmentReservesRouter.get(
+  '/:id',
+  equipmentReservesController.findOne,
+);
 
 equipmentReservesRouter.post(
   '/',

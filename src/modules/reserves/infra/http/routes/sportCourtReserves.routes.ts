@@ -12,8 +12,15 @@ const reservesSportCourtsDayAvailabilityController = new ReservesSportCourtDayAv
 
 const sportCourtReservesController = new SportCourtReservesController();
 
-sportCourtReservesRouter.use(ensureAuthenticated);
+sportCourtReservesRouter.get(
+  '/',
+  sportCourtReservesController.all,
+);
 
+sportCourtReservesRouter.get(
+  '/:id',
+  sportCourtReservesController.findOne,
+);
 sportCourtReservesRouter.post(
   '/',
   celebrate(

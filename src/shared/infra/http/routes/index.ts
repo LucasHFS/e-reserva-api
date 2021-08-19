@@ -36,9 +36,9 @@ routes.use('/sportCourts', ensureAuthenticated, sportCourtsRouter);
 
 routes.use('/my_reserves', ensureAuthenticated, myReserves);
 
-routes.use('/reserves', reserves);
-routes.use('/reserves/rooms', roomReservesRoutes);
-routes.use('/reserves/equipments', equipmentReservesRoutes);
-routes.use('/reserves/sportcourts', sportCourtReservesRoutes);
+routes.use('/reserves', ensureAuthenticated, reserves);
+routes.use('/reserves/rooms', ensureAuthenticated, roomReservesRoutes);
+routes.use('/reserves/equipments', ensureAuthenticated, equipmentReservesRoutes);
+routes.use('/reserves/sportcourts', ensureAuthenticated, sportCourtReservesRoutes);
 
 export default routes;

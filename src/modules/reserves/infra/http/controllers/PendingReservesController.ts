@@ -4,6 +4,8 @@ import listPendingReservesService from '@modules/reserves/services/ListPendingRe
 import AppError from '@shared/errors/AppError';
 import AcceptReserveService from '@modules/reserves/services/AcceptReserveService';
 import DenyReserveService from '@modules/reserves/services/DenyReserveService';
+import { getCustomRepository } from 'typeorm';
+import ReservesRepository from '../../typeorm/repositories/ReservesRepository';
 
 export default class PendingReservesController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -13,6 +15,14 @@ export default class PendingReservesController {
     const reserves = await listPendingReserves.execute();
 
     return response.json(reserves);
+  }
+
+  public async count(request: Request, response: Response): Promise<Response> {
+    const reservesRepository = new ReservesRepository()
+
+    const pendingCount = await reservesRepository.countPendingReserves();
+
+    return response.json({pendingCount});
   }
 
   public async accept(request: Request, response: Response): Promise<Response> {
