@@ -17,7 +17,7 @@ class ReservesRepository implements IReservesRepository {
     this.sportCourtRepository = getRepository(SportCourtReserve);
   }
 
-  public async getAllReserves(): Promise<IReservesResponse> {
+  public async getAllReserves(): Promise<Array<any>> {
     const equipmentsReserves = await this.equipmentRepository.find({
       relations: ['user', 'equipment'],
     });
@@ -27,10 +27,16 @@ class ReservesRepository implements IReservesRepository {
     const sportCourtsReserves = await this.sportCourtRepository.find({
       relations: ['user', 'sport_court'],
     });
-    return { equipmentsReserves, roomsReserves, sportCourtsReserves };
+    
+    // @ts-ignore    
+    const reserves = [].concat(equipmentsReserves, sportCourtsReserves, roomsReserves)
+    // @ts-ignore    
+    reserves.sort((a,b)=> new Date(b.starts_at) - new Date(a.starts_at));
+
+    return reserves;
   }
 
-  public async getPendingReserves(): Promise<IReservesResponse> {
+  public async getPendingReserves(): Promise<Array<any>> {
     const equipmentsReserves = await this.equipmentRepository.find({
       relations: ['user', 'equipment'],
       where: {  status: 'pending'  }
@@ -43,7 +49,13 @@ class ReservesRepository implements IReservesRepository {
       relations: ['user', 'sport_court'],
       where: {  status: 'pending'  }
     });
-    return { equipmentsReserves, roomsReserves, sportCourtsReserves };
+
+    // @ts-ignore    
+    const reserves = [].concat(equipmentsReserves, sportCourtsReserves, roomsReserves)
+    // @ts-ignore    
+    reserves.sort((a,b)=> new Date(b.starts_at) - new Date(a.starts_at));
+
+    return reserves;  
   }
 
   public async countPendingReserves(): Promise<number> {
@@ -64,7 +76,7 @@ class ReservesRepository implements IReservesRepository {
   
   public async getAllReservesByUser(
     user_id: string,
-  ): Promise<IReservesResponse> {
+  ): Promise<Array<any>> {
     const equipmentsReserves = await this.equipmentRepository.find({
       where: { user_id },
       relations: ['user', 'equipment'],
@@ -77,8 +89,13 @@ class ReservesRepository implements IReservesRepository {
       where: { user_id },
       relations: ['user', 'sport_court'],
     });
-    return { equipmentsReserves, roomsReserves, sportCourtsReserves };
-  }
+
+    // @ts-ignore    
+    const reserves = [].concat(equipmentsReserves, sportCourtsReserves, roomsReserves)
+    // @ts-ignore    
+    reserves.sort((a,b)=> new Date(b.starts_at) - new Date(a.starts_at));
+
+    return reserves;  }
 
   public async acceptReserve(
     reserve_id: string,
