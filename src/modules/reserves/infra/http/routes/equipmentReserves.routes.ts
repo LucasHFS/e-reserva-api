@@ -4,17 +4,52 @@ import { messages } from 'joi-translation-pt-br';
 import EquipmentReservesController from '../controllers/equipment/EquipmentReservesController';
 
 import ReservesEquipmentDayAvailabilityController from '../controllers/equipment/ReservesEquipmentDayAvailabilityController';
+import AvailableEquipmentsController from '../controllers/equipment/AvailableEquipmentsController';
 
 const equipmentReservesRouter = Router();
 
 const reservesEquipmentsDayAvailabilityController = new ReservesEquipmentDayAvailabilityController();
 
 const equipmentReservesController = new EquipmentReservesController();
+const availableEquipmentsController = new AvailableEquipmentsController();
+
 
 
 equipmentReservesRouter.get(
   '/',
   equipmentReservesController.all,
+);
+
+
+equipmentReservesRouter.get(
+  '/day-availability',
+  celebrate(
+    {
+      [Segments.BODY]: {
+        day: Joi.number().required(),
+        month: Joi.number().required(),
+        year: Joi.number().required(),
+        equipment_id: Joi.string().required(),
+      },
+    },
+    { messages },
+    ),
+  reservesEquipmentsDayAvailabilityController.index,
+);
+
+equipmentReservesRouter.get(
+  '/available',
+  celebrate(
+    {
+      [Segments.BODY]: {
+        date: Joi.date().required(),
+        hour: Joi.number().required(),
+        minute: Joi.number().required(),
+      },
+    },
+    { messages },
+    ),
+    availableEquipmentsController.index,
 );
 
 equipmentReservesRouter.get(

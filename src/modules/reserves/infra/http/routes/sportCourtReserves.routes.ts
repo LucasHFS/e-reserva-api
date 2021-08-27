@@ -5,16 +5,33 @@ import { messages } from 'joi-translation-pt-br';
 import SportCourtReservesController from '../controllers/sportCourt/SportCourtReservesController';
 
 import ReservesSportCourtDayAvailabilityController from '../controllers/sportCourt/ReservesSportCourtDayAvailabilityController';
+import AvailabileSportCourtController from '../controllers/sportCourt/AvailabileSportCourtController';
 
 const sportCourtReservesRouter = Router();
 
 const reservesSportCourtsDayAvailabilityController = new ReservesSportCourtDayAvailabilityController();
 
 const sportCourtReservesController = new SportCourtReservesController();
+const availableSportCourtController = new AvailabileSportCourtController();
 
 sportCourtReservesRouter.get(
   '/',
   sportCourtReservesController.all,
+);
+
+sportCourtReservesRouter.get(
+  '/available',
+  celebrate(
+    {
+      [Segments.BODY]: {
+        date: Joi.date().required(),
+        hour: Joi.number().required(),
+        minute: Joi.number().required(),
+      },
+    },
+    { messages },
+    ),
+    availableSportCourtController.index,
 );
 
 sportCourtReservesRouter.get(

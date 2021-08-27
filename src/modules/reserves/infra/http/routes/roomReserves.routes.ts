@@ -4,16 +4,50 @@ import { messages } from 'joi-translation-pt-br';
 import RoomReservesController from '../controllers/room/RoomReservesController';
 
 import ReservesRoomDayAvailabilityController from '../controllers/room/ReservesRoomDayAvailabilityController';
+import AvailabileRoomsController from '../controllers/room/AvailabileRoomsController';
 
 const roomReservesRouter = Router();
 
 const reservesRoomsDayAvailabilityController = new ReservesRoomDayAvailabilityController();
-
+const availableRoomsController = new AvailabileRoomsController();
 const roomReservesController = new RoomReservesController();
 
 roomReservesRouter.get(
   '/',
   roomReservesController.all,
+);
+
+
+roomReservesRouter.get(
+  '/day-availability',
+  celebrate(
+    {
+      [Segments.BODY]: {
+        day: Joi.number().required(),
+        month: Joi.number().required(),
+        year: Joi.number().required(),
+        room_id: Joi.string().required(),
+      },
+    },
+    { messages },
+    ),
+  reservesRoomsDayAvailabilityController.index,
+);
+
+
+roomReservesRouter.get(
+  '/available',
+  celebrate(
+    {
+      [Segments.BODY]: {
+        date: Joi.date().required(),
+        hour: Joi.number().required(),
+        minute: Joi.number().required(),
+      },
+    },
+    { messages },
+    ),
+    availableRoomsController.index,
 );
 
 roomReservesRouter.get(
@@ -34,22 +68,6 @@ roomReservesRouter.post(
     { messages },
   ),
   roomReservesController.create,
-);
-
-roomReservesRouter.get(
-  '/day-availability',
-  celebrate(
-    {
-      [Segments.BODY]: {
-        day: Joi.number().required(),
-        month: Joi.number().required(),
-        year: Joi.number().required(),
-        room_id: Joi.string().required(),
-      },
-    },
-    { messages },
-    ),
-  reservesRoomsDayAvailabilityController.index,
 );
 
 export default roomReservesRouter;
