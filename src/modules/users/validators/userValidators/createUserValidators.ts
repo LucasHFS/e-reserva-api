@@ -9,7 +9,6 @@ interface IRequest {
   cpf: string;
   phone: string;
   password: string;
-  roleId: string;
   bondId: string;
   courseId: string;
 }
@@ -18,9 +17,8 @@ const schema = Yup.object().shape({
   name: Yup.string().required(),
   email: Yup.string().email().required(),
   cpf: Yup.string().required(),
-  phone: Yup.string(),
+  phone: Yup.string().nullable(),
   password: Yup.string().required(),
-  roleId: Yup.string().required(),
   bondId: Yup.string().required(),
   courseId: Yup.string().required(),
 });
@@ -31,7 +29,6 @@ const createUserValidator = async ({
   cpf,
   phone,
   password,
-  roleId,
   bondId,
   courseId,
 }: IRequest): Promise<unknown> => {
@@ -57,7 +54,6 @@ const createUserValidator = async ({
       cpf,
       phone,
       password,
-      roleId,
       bondId,
       courseId,
     },

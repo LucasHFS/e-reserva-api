@@ -18,9 +18,24 @@ const availableEquipmentsController = new AvailableEquipmentsController();
 equipmentReservesRouter.get(
   '/',
   equipmentReservesController.all,
-);
-
-
+  );
+  
+  
+  equipmentReservesRouter.get(
+    '/available',
+    celebrate(
+      {
+        [Segments.QUERY]: {
+          date: Joi.number().required(),
+          hour: Joi.number().required(),
+          minute: Joi.number().required(),
+        },
+      },
+      { messages },
+      ),
+      availableEquipmentsController.index,
+  );
+  
 equipmentReservesRouter.get(
   '/day-availability',
   celebrate(
@@ -37,20 +52,6 @@ equipmentReservesRouter.get(
   reservesEquipmentsDayAvailabilityController.index,
 );
 
-equipmentReservesRouter.get(
-  '/available',
-  celebrate(
-    {
-      [Segments.BODY]: {
-        date: Joi.date().required(),
-        hour: Joi.number().required(),
-        minute: Joi.number().required(),
-      },
-    },
-    { messages },
-    ),
-    availableEquipmentsController.index,
-);
 
 equipmentReservesRouter.get(
   '/:id',

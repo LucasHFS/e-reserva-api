@@ -42,7 +42,6 @@ export default class UsersController {
       cpf,
       phone,
       password,
-      roleId,
       bondId,
       courseId,
     } = request.body;
@@ -55,7 +54,6 @@ export default class UsersController {
       cpf,
       phone,
       password,
-      roleId,
       bondId,
       courseId,
     });

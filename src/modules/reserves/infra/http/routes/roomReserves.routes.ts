@@ -39,8 +39,8 @@ roomReservesRouter.get(
   '/available',
   celebrate(
     {
-      [Segments.BODY]: {
-        date: Joi.date().required(),
+      [Segments.QUERY]: {
+        date: Joi.number().required(),
         hour: Joi.number().required(),
         minute: Joi.number().required(),
       },

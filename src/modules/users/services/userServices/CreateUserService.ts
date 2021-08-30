@@ -17,7 +17,6 @@ interface IRequest {
   cpf: string;
   phone: string;
   password: string;
-  roleId: string;
   bondId: string;
   courseId: string;
 }
@@ -37,7 +36,6 @@ class CreateUserService {
     cpf,
     phone,
     password,
-    roleId,
     bondId,
     courseId,
   }: IRequest): Promise<User> {
@@ -47,7 +45,6 @@ class CreateUserService {
       cpf,
       phone,
       password,
-      roleId,
       bondId,
       courseId,
     });
@@ -57,7 +54,7 @@ class CreateUserService {
     const coursesRepository = getCustomRepository(CoursesRepository);
 
     // Check existent role
-    const role = await rolesRepository.findById(roleId);
+    const role = await rolesRepository.findByName('Usuário Comum');
 
     if (!role) {
       throw new AppError('Papel do usuário não encontrado', 404);
