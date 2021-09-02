@@ -10,7 +10,6 @@ interface IRequest {
   equipment_id: string;
   user_id: string;
   starts_at: Date;
-  ends_at: Date;
 }
 
 @injectable()
@@ -24,7 +23,6 @@ class CreateEquipmentReserveService {
     equipment_id,
     user_id,
     starts_at,
-    ends_at,
   }: IRequest): Promise<EquipmentReserve> {
 
     const equipmentsRepository = new EquipmentsRepository();
@@ -41,15 +39,12 @@ class CreateEquipmentReserveService {
     }
    
     const startReserveDate = startOfMinute(starts_at);
-    const endReserveDate = startOfMinute(ends_at);
 
     // validation with hours
     // const startHour = getHours(startReserveDate);
-    // const endHour = getHours(endReserveDate);
 
     if (
-      isBefore(startReserveDate, Date.now()) ||
-      isBefore(endReserveDate, Date.now())
+      isBefore(startReserveDate, Date.now())
     ) {
       throw new AppError('Não pode realizar uma reserva para um momento do passado');
     }
@@ -68,7 +63,6 @@ class CreateEquipmentReserveService {
       equipment_id,
       user_id,
       starts_at: startReserveDate,
-      ends_at: endReserveDate,
     });
 
     return reserve;

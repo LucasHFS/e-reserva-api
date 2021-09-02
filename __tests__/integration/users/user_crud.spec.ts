@@ -46,7 +46,7 @@ afterAll(async () => {
 describe('CreateUser', () => {
   it('adds a user to the database', async () => {
     const bond = await bondsRepository.create({ name: 'bond aaa' });
-    const role = await rolesRepository.create({name: 'adm1', description: 'lul'});
+    const role = await rolesRepository.create({name: 'Usuário Comum', description: 'lul'});
     const course = await coursesRepository.create({ name: 'course aaa' });
 
     const response = await request(app).post('/users').send({

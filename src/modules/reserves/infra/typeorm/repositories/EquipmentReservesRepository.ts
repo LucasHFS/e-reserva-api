@@ -72,14 +72,12 @@ class EquipmentReserveRepository implements IEquipmentReservesRepository {
     equipment_id,
     user_id,
     starts_at,
-    ends_at,
   }: ICreateEquipmentReserveDTO): Promise<EquipmentReserve> {
     const reserve = this.ormRepository.create({
       equipment_id,
       user_id,
       status: 'accepted',
       starts_at,
-      ends_at,
     });
 
     await this.ormRepository.save(reserve);

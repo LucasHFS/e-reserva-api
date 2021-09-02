@@ -72,7 +72,6 @@ describe('AcceptsReserve', () => {
       room_id: room.id,
       status: 'pending',
       starts_at: new Date(),
-      ends_at: new Date(),
     });
 
     const response = await request(app)
@@ -86,7 +85,6 @@ describe('AcceptsReserve', () => {
     //     room_id: room.id,
     //     status: 'denied',
     //     starts_at: expect.any(String),
-    //     ends_at: expect.any(String),
     //   }),
     // );
   });

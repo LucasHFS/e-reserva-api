@@ -40,7 +40,7 @@ export default class RoomReservesController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-    const { room_id, starts_at, ends_at } = request.body;
+    const { room_id, starts_at } = request.body;
 
     const createReserve = container.resolve(CreateRoomReserveService);
 
@@ -48,7 +48,6 @@ export default class RoomReservesController {
       room_id,
       user_id,
       starts_at,
-      ends_at,
     });
 
     return response.json(reserve);

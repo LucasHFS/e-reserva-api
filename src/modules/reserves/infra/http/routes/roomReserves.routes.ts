@@ -62,7 +62,6 @@ roomReservesRouter.post(
       [Segments.BODY]: {
         room_id: Joi.string().uuid().required(),
         starts_at: Joi.date(),
-        ends_at: Joi.date(),
       },
     },
     { messages },

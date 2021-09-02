@@ -39,7 +39,7 @@ export default class EquipmentReservesController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-    const { equipment_id, starts_at, ends_at } = request.body;
+    const { equipment_id, starts_at } = request.body;
 
     const createReserve = container.resolve(CreateEquipmentReserveService);
 
@@ -47,7 +47,6 @@ export default class EquipmentReservesController {
       equipment_id,
       user_id,
       starts_at,
-      ends_at,
     });
 
     return response.json(reserve);

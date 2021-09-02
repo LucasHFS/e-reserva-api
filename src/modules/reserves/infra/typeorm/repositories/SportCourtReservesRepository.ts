@@ -73,14 +73,12 @@ class SportCourtReserveRepository implements ISportCourtReservesRepository {
     sport_court_id,
     user_id,
     starts_at,
-    ends_at,
   }: ICreateSportCourtReserveDTO): Promise<SportCourtReserve> {
     const reserve = this.ormRepository.create({
       sport_court_id,
       user_id,
       status: 'accepted',
       starts_at,
-      ends_at,
     });
 
     await this.ormRepository.save(reserve);

@@ -75,7 +75,6 @@ describe('ListAllReserves', () => {
       room_id: room.id,
       status: 'pending',
       starts_at: new Date(),
-      ends_at: new Date(),
     });
 
     const response = await request(app)
@@ -84,24 +83,21 @@ describe('ListAllReserves', () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(
-      expect.objectContaining({
-        equipmentsReserves: [],
-        roomsReserves: [
+      expect.objectContaining(
+         [
             {
               id: reserve.id,
               room: expect.any(Object),
               room_id: reserve.room_id,
               starts_at: expect.any(String),
-              ends_at: expect.any(String),
               status: reserve.status,
               user: expect.any(Object),
               user_id: reserve.user_id,
               created_at: expect.any(String),
               updated_at: expect.any(String),
             }
-          ],
-          sportCourtsReserves: []
-        })
+         ],
+        )
       )
     })
   });

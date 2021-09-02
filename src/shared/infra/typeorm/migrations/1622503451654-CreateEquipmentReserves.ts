@@ -37,10 +37,6 @@ export default class CreateEquipmentReserves1622503451654 implements MigrationIn
             type: 'timestamp',
           },
           {
-            name: 'ends_at',
-            type: 'timestamp',
-          },
-          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

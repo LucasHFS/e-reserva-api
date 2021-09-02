@@ -33,10 +33,6 @@ export default class CreateRoomReserves1627303254585 implements MigrationInterfa
                 type: 'timestamp',
               },
               {
-                name: 'ends_at',
-                type: 'timestamp',
-              },
-              {
                 name: 'created_at',
                 type: 'timestamp',
                 default: 'now()',

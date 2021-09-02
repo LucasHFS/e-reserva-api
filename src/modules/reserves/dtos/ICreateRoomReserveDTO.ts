@@ -3,5 +3,4 @@ export default interface ICreateRoomReserveDTO {
   user_id: string;
   status: string;
   starts_at: Date;
-  ends_at: Date;
 }

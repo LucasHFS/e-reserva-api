@@ -33,10 +33,6 @@ export default class CreateSportCourtReserves1627306300792 implements MigrationI
                 type: 'timestamp',
               },
               {
-                name: 'ends_at',
-                type: 'timestamp',
-              },
-              {
                 name: 'created_at',
                 type: 'timestamp',
                 default: 'now()',

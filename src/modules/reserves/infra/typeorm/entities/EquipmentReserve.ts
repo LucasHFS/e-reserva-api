@@ -36,9 +36,6 @@ class EquipmentReserve {
   @Column('timestamp with time zone')
   starts_at: Date;
 
-  @Column('timestamp with time zone')
-  ends_at: Date;
-
   @CreateDateColumn()
   created_at: Date;
 

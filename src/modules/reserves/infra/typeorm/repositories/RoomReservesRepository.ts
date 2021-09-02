@@ -75,14 +75,12 @@ class RoomReserveRepository implements IRoomReservesRepository {
     user_id,
     status,
     starts_at,
-    ends_at,
   }: ICreateRoomReserveDTO): Promise<RoomReserve> {
     const reserve = this.ormRepository.create({
       room_id,
       user_id,
       status,
       starts_at,
-      ends_at,
     });
 
     await this.ormRepository.save(reserve);
