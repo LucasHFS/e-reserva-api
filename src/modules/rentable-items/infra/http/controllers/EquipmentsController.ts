@@ -28,7 +28,7 @@ export default class EquipmentsController {
     const equipment = await equipmentsRepository.findById(id);
 
     if (!equipment) {
-      throw new AppError('Papel não encontrado', 404);
+      throw new AppError('Equipamento não encontrado', 404);
     }
 
     return response.status(200).json(equipment);
@@ -50,10 +50,6 @@ export default class EquipmentsController {
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const { name, description } = request.body;
-
-    if (!id) {
-      throw new AppError('campo id é obrigatório', 404);
-    }
 
     const updateEquipment = container.resolve(UpdateEquipmentService);
 

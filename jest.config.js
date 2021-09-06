@@ -19,8 +19,9 @@ module.exports = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['<rootDir>/src/modules/**/services/*.ts', '<rootDir>/src/modules/**/services/**/*.ts'],
-
+  // collectCoverageFrom: ['<rootDir>/src/modules/**/services/*.ts', '<rootDir>/src/modules/**/services/**/*.ts'],
+  collectCoverageFrom: ['<rootDir>/src/modules/**/infra/http/controllers/*.ts', '<rootDir>/src/modules/**/infra/http/controllers/**/*.ts'],
+  
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
 
@@ -93,7 +94,12 @@ module.exports = {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: undefined,
+  reporters: [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Test Report"
+    }]
+  ],
 
   // Automatically reset mock state between every test
   // resetMocks: false,
@@ -149,7 +155,7 @@ module.exports = {
   // testRegex: [],
 
   // This option allows the use of a custom results processor
-  // testResultsProcessor: undefined,
+    testResultsProcessor: "./node_modules/jest-html-reporter",
 
   // This option allows use of a custom test runner
   // testRunner: "jasmine2",

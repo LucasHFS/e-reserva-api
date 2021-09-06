@@ -32,6 +32,75 @@ afterAll(async () => {
   await mainConnection.close();
 });
 
+beforeEach(async () => {
+  connection = await getConnection('test-connection');
+  await connection.query('DELETE FROM rooms');
+});
+
+
+
+describe('ListRooms', () => {
+  it('shows rooms', async () => {
+    const newRoom = new Room();
+    newRoom.name = '102';
+    newRoom.description = 'new descriptions';
+    newRoom.type = 'room';
+
+    const room = await roomsRepository.save(newRoom);
+
+    const response = await request(app)
+      .get(`/rooms`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      [{
+        id: room.id,
+        name: room.name,
+        description: room.description,
+        type: room.type,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      }],
+    );
+  });
+});
+
+describe('FindOneRoom', () => {
+  it('shows one room', async () => {
+    const newRoom = new Room();
+    newRoom.name = '102';
+    newRoom.description = 'new descriptions';
+    newRoom.type = 'room';
+
+    const room = await roomsRepository.save(newRoom);
+
+    const response = await request(app)
+      .get(`/rooms/${room.id}`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        id: room.id,
+        name: room.name,
+        description: room.description,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      }),
+    );
+  });
+
+  it('return error when equipoment not found', async () => {
+    const response = await request(app)
+      .get(`/rooms/400bf39a-aa98-4e9c-aee4-0deace5e8ab2`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(404);
+  });
+});
+
+
 describe('CreateRoom', () => {
   it('adds a room to the database', async () => {
     const response = await request(app)

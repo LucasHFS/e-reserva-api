@@ -6,7 +6,7 @@ export default class AvailabileRoomsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const { date, hour, minute } = request.query;
 
-    if(!date || !hour || !minute){
+    if(!date || hour === undefined || minute === undefined){
       throw new AppError('Invalid fields', 400)
     }
 

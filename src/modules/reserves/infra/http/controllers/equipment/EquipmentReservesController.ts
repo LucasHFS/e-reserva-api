@@ -49,7 +49,7 @@ export default class EquipmentReservesController {
       starts_at,
     });
 
-    return response.json(reserve);
+    return response.status(201).json(reserve);
   }
 
 }

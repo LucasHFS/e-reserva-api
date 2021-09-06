@@ -31,7 +31,7 @@ routes.use('/courses', coursesRouter);
 
 routes.use('/equipments', ensureAuthenticated, equipmentsRouter);
 routes.use('/rooms', ensureAuthenticated, roomsRouter);
-routes.use('/sportCourts', ensureAuthenticated, sportCourtsRouter);
+routes.use('/sportcourts', ensureAuthenticated, sportCourtsRouter);
 // routes.use('/password', passwordRouter);
 
 routes.use('/my_reserves', ensureAuthenticated, myReserves);

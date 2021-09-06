@@ -7,6 +7,8 @@ import SportCourtsRepository from '@modules/rentable-items/infra/typeorm/reposit
 import SportCourt from '@modules/rentable-items/infra/typeorm/entities/SportCourt';
 import generateToken from '@shared/helpers/generateToken';
 
+let sportCourtsRepository: SportCourtsRepository;
+
 let admin_token: string;
 
 let connection: Connection;
@@ -21,6 +23,8 @@ beforeAll(async () => {
   await connection.query('DELETE FROM bonds');
   const token = await generateToken();
   admin_token = token;
+
+  sportCourtsRepository = getCustomRepository(SportCourtsRepository);
 });
 
 afterAll(async () => {
@@ -30,10 +34,74 @@ afterAll(async () => {
   await mainConnection.close();
 });
 
+
+beforeEach(async () => {
+  connection = await getConnection('test-connection');
+  await connection.query('DELETE FROM sport_courts');
+});
+
+describe('ListSportCourts', () => {
+  it('shows sport_courts', async () => {
+    const newSportCourt = new SportCourt();
+    newSportCourt.name = '102';
+    newSportCourt.description = 'new descriptions';
+
+    const sport_court = await sportCourtsRepository.save(newSportCourt);
+
+    const response = await request(app)
+      .get(`/sportcourts`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining([{
+        id: sport_court.id,
+        name: sport_court.name,
+        description: sport_court.description,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      }]),
+    );
+  });
+});
+
+describe('FindOneSportCourt', () => {
+  it('shows one sport_court', async () => {
+    const newSportCourt = new SportCourt();
+    newSportCourt.name = '102';
+    newSportCourt.description = 'new descriptions';
+
+    const sport_court = await sportCourtsRepository.save(newSportCourt);
+
+    const response = await request(app)
+      .get(`/sportcourts/${sport_court.id}`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        id: sport_court.id,
+        name: sport_court.name,
+        description: sport_court.description,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      }),
+    );
+  });
+
+  it('return error when equipoment not found', async () => {
+    const response = await request(app)
+      .get(`/sportcourts/400bf39a-aa98-4e9c-aee4-0deace5e8ab2`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(404);
+  });
+});
+
 describe('CreateSportCourt', () => {
   it('adds a sportCourt to the database', async () => {
     const response = await request(app)
-      .post('/sportCourts')
+      .post('/sportcourts')
       .set('authorization', `bearer ${admin_token}`)
       .send({
         name: 'Test',
@@ -64,7 +132,7 @@ describe('UpdateSportCourt', () => {
     const sportCourt = await sportCourtsRepository.save(newSportCourt);
 
     const response = await request(app)
-      .put(`/sportCourts/${sportCourt.id}`)
+      .put(`/sportcourts/${sportCourt.id}`)
       .set('authorization', `bearer ${admin_token}`)
       .send({
         name: 'test updated',
@@ -93,7 +161,7 @@ describe('DeleteSportCourt', () => {
     const sportCourt = await sportCourtsRepository.save(newSportCourt);
 
     const response = await request(app)
-      .delete(`/sportCourts/${sportCourt.id}`)
+      .delete(`/sportcourts/${sportCourt.id}`)
       .set('authorization', `bearer ${admin_token}`)
       .send();
 

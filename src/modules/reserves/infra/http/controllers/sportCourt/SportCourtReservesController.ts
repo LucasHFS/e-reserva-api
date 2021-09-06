@@ -50,7 +50,7 @@ export default class SportCourtReservesController {
       starts_at,
     });
 
-    return response.json(reserve);
+    return response.status(201).json(reserve);
   }
 
 }

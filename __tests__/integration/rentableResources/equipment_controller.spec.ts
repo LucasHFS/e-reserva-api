@@ -35,6 +35,72 @@ afterAll(async () => {
   await mainConnection.close();
 });
 
+
+beforeEach(async () => {
+  connection = await getConnection('test-connection');
+  await connection.query('DELETE FROM equipments');
+});
+
+
+describe('ListEquipments', () => {
+  it('shows equipments', async () => {
+    const newEquipment = new Equipment();
+    newEquipment.name = '102';
+    newEquipment.description = 'new descriptions';
+
+    const equipment = await equipmentsRepository.save(newEquipment);
+
+    const response = await request(app)
+      .get(`/equipments`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining([{
+        id: equipment.id,
+        name: equipment.name,
+        description: equipment.description,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      }]),
+    );
+  });
+});
+
+describe('FindOneEquipment', () => {
+  it('shows one equipment', async () => {
+    const newEquipment = new Equipment();
+    newEquipment.name = '102';
+    newEquipment.description = 'new descriptions';
+
+    const equipment = await equipmentsRepository.save(newEquipment);
+
+    const response = await request(app)
+      .get(`/equipments/${equipment.id}`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        id: equipment.id,
+        name: equipment.name,
+        description: equipment.description,
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
+      }),
+    );
+  });
+
+  it('return error when equipoment not found', async () => {
+    const response = await request(app)
+      .get(`/equipments/400bf39a-aa98-4e9c-aee4-0deace5e8ab2`)
+      .set('authorization', `bearer ${admin_token}`)
+
+    expect(response.status).toBe(404);
+  });
+});
+
+
 describe('CreateEquipment', () => {
   it('adds a equipment to the database', async () => {
     const response = await request(app)

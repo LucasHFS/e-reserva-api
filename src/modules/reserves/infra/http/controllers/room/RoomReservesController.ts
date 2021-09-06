@@ -50,7 +50,7 @@ export default class RoomReservesController {
       starts_at,
     });
 
-    return response.json(reserve);
+    return response.status(201).json(reserve);
   }
 
 }

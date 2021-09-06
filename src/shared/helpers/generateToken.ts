@@ -6,8 +6,9 @@ import CoursesRepository from '@modules/users/infra/typeorm/repositories/Courses
 import AuthenticateUserService from '@modules/users/services/userServices/AuthenticateUserService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
+import User from '@modules/users/infra/typeorm/entities/User';
 
-const generateToken = async (): Promise<string> => {
+const generateToken = async (dirtUser?: User): Promise<string> => {
   const usersRepository = new UsersRepository();
   const hashProvider = new BCryptHashProvider();
   const authenticateUserService = new AuthenticateUserService(
@@ -15,27 +16,31 @@ const generateToken = async (): Promise<string> => {
     hashProvider,
   );
 
-  const bondsRepository = getCustomRepository(BondsRepository);
-  const rolesRepository = getCustomRepository(RolesRepository);
-  const coursesRepository = getCustomRepository(CoursesRepository);
+  let user = dirtUser
 
-  const bond = await bondsRepository.create({ name: 'bx1' });
-  const role = await rolesRepository.create({ name: 'Administrador', description: 'abc' });
-  const course = await coursesRepository.create({ name: 'crsex' });
-
-  await usersRepository.create({
-    name: 'Lucas Silva',
-    email: 'lucas3333@gmail.com',
-    cpf: '70142411888',
-    phone: '62991431044',
-    password: await hashProvider.generateHash('123456'),
-    bond,
-    role,
-    courses: [course],
-  });
+  if(!user){
+    const bondsRepository = getCustomRepository(BondsRepository);
+    const rolesRepository = getCustomRepository(RolesRepository);
+    const coursesRepository = getCustomRepository(CoursesRepository);
+  
+    const bond = await bondsRepository.create({ name: 'bx1' });
+    const role = await rolesRepository.create({ name: 'Administrador', description: 'abc' });
+    const course = await coursesRepository.create({ name: 'crsex' });
+  
+    user = await usersRepository.create({
+      name: 'Lucas Silva',
+      email: 'lucas3333@gmail.com',
+      cpf: '70142411888',
+      phone: '62991431044',
+      password: await hashProvider.generateHash('123456'),
+      bond,
+      role,
+      courses: [course],
+    });
+  }
 
   const { token } = await authenticateUserService.execute({
-    cpf: '70142411888',
+    cpf: user.cpf,
     password: '123456',
   });
   return token;
