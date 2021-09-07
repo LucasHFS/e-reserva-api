@@ -4,6 +4,7 @@ import IFindAllInDayFromUserDTO from '../dtos/IFindAllInDayFromUserDTO';
 import IFindAllRoomInDayDTO from '../dtos/IFindAllRoomInDayDTO';
 
 export default interface IRoomReservesRepository {
+  findOne(reserve_id: string): Promise<RoomReserve | undefined>
   create(data: ICreateRoomReserveDTO): Promise<RoomReserve>;
   findByDate(date: Date, room_id: string): Promise<RoomReserve | undefined>;
   findAllInDayFromUser(

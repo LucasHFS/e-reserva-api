@@ -1,10 +1,12 @@
-import { startOfMinute, isBefore } from 'date-fns';
+import { startOfMinute, isBefore, format } from 'date-fns';
 import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import SportCourtReserve from '../../infra/typeorm/entities/SportCourtReserve';
 import ISportCourtReservesRepository from '../../repositories/ISportCourtReservesRepository';
 import SportCourtsRepository from '@modules/rentable-items/infra/typeorm/repositories/SportCourtsRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { getCustomRepository } from 'typeorm';
+import MessagesRepository from '@modules/users/infra/typeorm/repositories/MessagesRepository';
 
 interface IRequest {
   sport_court_id: string;
@@ -40,6 +42,8 @@ class CreateSportCourtReserveService {
    
 
     const startReserveDate = startOfMinute(starts_at);
+    startReserveDate.setSeconds(0);
+    startReserveDate.setMilliseconds(0);
 
     // validation with hours
     // const startHour = getHours(startReserveDate);
@@ -64,6 +68,12 @@ class CreateSportCourtReserveService {
       sport_court_id,
       user_id,
       starts_at: startReserveDate,
+    });
+
+    const messagesRepository = getCustomRepository(MessagesRepository);
+    await messagesRepository.create({
+      to: 'admin',
+      body: `${user.name} reservou a quadra ${sportCourt.name} para data ${format(starts_at, 'd/M/yyyy')} as ${ format(starts_at, 'H:m') } hrs.`
     });
 
     return reserve;

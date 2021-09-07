@@ -5,6 +5,6 @@ export default interface IReservesRepository {
   getPendingReserves(): Promise<Array<any>>;
   countPendingReserves(): Promise<number>;
   getAllReservesByUser(userid: string): Promise<Array<any>>;
-  acceptReserve(reserve_id: string): Promise<unknown>;
-  denyReserve(reserve_id: string): Promise<unknown>;
+  acceptReserve(reserve_id: string): Promise<any>;
+  denyReserve({ reserve_id, justification }: { reserve_id: string, justification: string }): Promise<any>;
 }

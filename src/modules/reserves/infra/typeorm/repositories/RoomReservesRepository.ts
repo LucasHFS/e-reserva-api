@@ -13,6 +13,14 @@ class RoomReserveRepository implements IRoomReservesRepository {
     this.ormRepository = getRepository(RoomReserve);
   }
 
+  public async findOne(reserve_id: string): Promise<RoomReserve | undefined> {
+    const reserve = await this.ormRepository.findOne(reserve_id, {
+      relations: ['user', 'room']
+    });
+
+    return reserve;
+  }
+
   public async findAllInDayFromUser({
     user_id,
     day,

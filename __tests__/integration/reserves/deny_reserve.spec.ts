@@ -90,17 +90,17 @@ describe('AcceptsReserve', () => {
   });
 
 
-  it("doesn't finds the reserve id", async () => {
+  it("doesn't find the reserve id", async () => {
     
     const response = await request(app)
       .put(`/reserves/non-existing-reserve-id/deny`)
       .set('authorization', `bearer ${admin_token}`);
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(400);
     expect(response.body).toEqual(
       expect.objectContaining({
-        message: "Não foi possível localizar essa reserva", 
-        status: "erro",
+        message: 'Erro ao localizar reserva', 
+        status: 'erro'
       })
     );
   });

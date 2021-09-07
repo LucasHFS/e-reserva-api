@@ -4,6 +4,7 @@ import IFindAllInDayFromUserDTO from '../dtos/IFindAllInDayFromUserDTO';
 import IFindAllSportCourtInDayDTO from '../dtos/IFindAllSportCourtInDayDTO';
 
 export default interface ISportCourtReservesRepository {
+  findOne(reserve_id: string): Promise<SportCourtReserve | undefined>
   create(data: ICreateSportCourtReserveDTO): Promise<SportCourtReserve>;
   findByDate(date: Date, sport_court_id: string): Promise<SportCourtReserve | undefined>;
   findAllInDayFromUser(

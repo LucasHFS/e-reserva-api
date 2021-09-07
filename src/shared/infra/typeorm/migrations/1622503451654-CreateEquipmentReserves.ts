@@ -33,6 +33,11 @@ export default class CreateEquipmentReserves1622503451654 implements MigrationIn
             isNullable: true,
           },
           {
+            name: 'justification',
+            type: 'text',
+            isNullable: true,
+          },
+          {
             name: 'starts_at',
             type: 'timestamp',
           },

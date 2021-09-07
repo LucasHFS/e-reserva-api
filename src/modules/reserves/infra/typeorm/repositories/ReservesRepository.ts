@@ -95,7 +95,8 @@ class ReservesRepository implements IReservesRepository {
     // @ts-ignore    
     reserves.sort((a,b)=> new Date(b.starts_at) - new Date(a.starts_at));
 
-    return reserves;  }
+    return reserves;  
+  }
 
   public async acceptReserve(
     reserve_id: string,
@@ -106,63 +107,32 @@ class ReservesRepository implements IReservesRepository {
       if(roomReserve){
         roomReserve.status = 'accepted';
         return this.roomRepository.save(roomReserve);
-
       } else {
-        const equipmentReserve = await this.equipmentRepository.findOne(reserve_id);
+        throw new AppError('Não foi possível localizar reserva', 404)
+      }
 
-        if(equipmentReserve){
-          equipmentReserve.status = 'accepted';
-          return this.equipmentRepository.save(equipmentReserve);
-
-        } else {  
-            const sportCourtReserve = await this.sportCourtRepository.findOne(reserve_id);
-
-            if(sportCourtReserve){
-              sportCourtReserve.status = 'accepted';
-              return this.sportCourtRepository.save(sportCourtReserve);
-
-            } else {
-              throw new AppError('reserva não encontrada', 404);
-            }
-          }
-        }
       }catch(e){
-        throw new AppError('Não foi possível localizar essa reserva', 404)
+        throw new AppError('Erro ao localizar reserva', 400)
       }
     }
 
 
   public async denyReserve(
-    reserve_id: string,
+    {reserve_id, justification } : { reserve_id: string; justification: string}
   ): Promise<unknown> {
     try {
-      const equipmentReserve = await this.equipmentRepository.findOne(reserve_id);
-      
-      if(equipmentReserve){
-
-        equipmentReserve.status = 'denied';
-        return this.equipmentRepository.save(equipmentReserve);
-
-      } else {
         const roomReserve = await this.roomRepository.findOne(reserve_id);
         
         if(roomReserve){
           roomReserve.status = 'denied';
+          roomReserve.justification = justification;
           return this.roomRepository.save(roomReserve);
         } else {
-          const sportCourtReserve = await this.sportCourtRepository.findOne(reserve_id);
-
-          if(sportCourtReserve){
-            sportCourtReserve.status = 'denied';
-            return this.sportCourtRepository.save(sportCourtReserve);
-          } else {
-            throw new AppError('reserve not found', 404);
-          }
+          throw new AppError('Não foi possível localizar reserva', 404)
         }
-      }
-  }catch(e){
-    throw new AppError('Não foi possível localizar essa reserva', 404)
-  }
+    }catch(e){
+      throw new AppError('Erro ao localizar reserva', 400)
+    }
   }
 }
 

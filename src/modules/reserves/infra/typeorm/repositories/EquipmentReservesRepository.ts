@@ -13,6 +13,14 @@ class EquipmentReserveRepository implements IEquipmentReservesRepository {
     this.ormRepository = getRepository(EquipmentReserve);
   }
 
+  public async findOne(reserve_id: string): Promise<EquipmentReserve | undefined> {
+    const reserve = await this.ormRepository.findOne(reserve_id, {
+      relations: ['user', 'equipment']
+    });
+
+    return reserve;
+  }
+
   public async findAllInDayFromUser({
     user_id,
     day,

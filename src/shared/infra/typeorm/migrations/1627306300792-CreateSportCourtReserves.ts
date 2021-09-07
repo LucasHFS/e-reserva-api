@@ -29,6 +29,11 @@ export default class CreateSportCourtReserves1627306300792 implements MigrationI
                 isNullable: true,
               },
               {
+                name: 'justification',
+                type: 'text',
+                isNullable: true,
+              },
+              {
                 name: 'starts_at',
                 type: 'timestamp',
               },

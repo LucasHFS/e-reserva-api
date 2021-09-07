@@ -14,6 +14,14 @@ class SportCourtReserveRepository implements ISportCourtReservesRepository {
     this.ormRepository = getRepository(SportCourtReserve);
   }
 
+  public async findOne(reserve_id: string): Promise<SportCourtReserve | undefined> {
+    const reserve = await this.ormRepository.findOne(reserve_id, {
+      relations: ['user', 'sport_court']
+    });
+
+    return reserve;
+  }
+
   public async findAllInDayFromUser({
     user_id,
     day,

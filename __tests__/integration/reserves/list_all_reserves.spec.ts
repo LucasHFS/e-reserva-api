@@ -83,13 +83,13 @@ describe('ListAllReserves', () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(
-      expect.objectContaining(
          [
             {
               id: reserve.id,
               room: expect.any(Object),
               room_id: reserve.room_id,
               starts_at: expect.any(String),
+              justification: null,
               status: reserve.status,
               user: expect.any(Object),
               user_id: reserve.user_id,
@@ -97,7 +97,6 @@ describe('ListAllReserves', () => {
               updated_at: expect.any(String),
             }
          ],
-        )
       )
     })
   });

@@ -29,6 +29,11 @@ export default class CreateRoomReserves1627303254585 implements MigrationInterfa
                 isNullable: true,
               },
               {
+                name: 'justification',
+                type: 'text',
+                isNullable: true,
+              },
+              {
                 name: 'starts_at',
                 type: 'timestamp',
               },

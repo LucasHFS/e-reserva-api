@@ -43,6 +43,7 @@ export default class PendingReservesController {
 
   public async deny(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
+    const { justification } = request.body;
 
     if (!id) {
       throw new AppError('campo id é obrigatório', 400);
@@ -52,6 +53,7 @@ export default class PendingReservesController {
 
     const reserve = await denyReserve.execute({
       reserve_id: id,
+      justification,
     });
 
     return response.status(204).json(reserve);

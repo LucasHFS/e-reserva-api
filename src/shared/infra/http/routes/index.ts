@@ -20,6 +20,9 @@ import roomReservesRoutes from '@modules/reserves/infra/http/routes/roomReserves
 
 import myReserves from '@modules/reserves/infra/http/routes/myReserves.routes';
 
+import messagesRouter from '@modules/users/infra/http/routes/messages.routes';
+
+
 
 const routes = Router();
 
@@ -40,5 +43,7 @@ routes.use('/reserves', ensureAuthenticated, reserves);
 routes.use('/reserves/rooms', ensureAuthenticated, roomReservesRoutes);
 routes.use('/reserves/equipments', ensureAuthenticated, equipmentReservesRoutes);
 routes.use('/reserves/sportcourts', ensureAuthenticated, sportCourtReservesRoutes);
+
+routes.use('/messages', ensureAuthenticated, messagesRouter);
 
 export default routes;

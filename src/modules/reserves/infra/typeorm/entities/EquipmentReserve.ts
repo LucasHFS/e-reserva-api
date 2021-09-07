@@ -33,6 +33,9 @@ class EquipmentReserve {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
+  @Column()
+  justification?: string;
+
   @Column('timestamp with time zone')
   starts_at: Date;
 
