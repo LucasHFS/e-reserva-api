@@ -13,43 +13,38 @@ const reservesEquipmentsDayAvailabilityController = new ReservesEquipmentDayAvai
 const equipmentReservesController = new EquipmentReservesController();
 const availableEquipmentsController = new AvailableEquipmentsController();
 
-
-
-equipmentReservesRouter.get(
-  '/',
-  equipmentReservesController.all,
-  );
-  
-  
-  equipmentReservesRouter.get(
-    '/available',
-    celebrate(
-      {
-        [Segments.QUERY]: {
-          date: Joi.number().required(),
-          hour: Joi.number().required(),
-          minute: Joi.number().required(),
-        },
-      },
-      { messages },
-      ),
-      availableEquipmentsController.index,
-  );
-  
 equipmentReservesRouter.get(
   '/day-availability',
   celebrate(
     {
       [Segments.BODY]: {
-        day: Joi.number().required(),
-        month: Joi.number().required(),
-        year: Joi.number().required(),
+        date: Joi.number().required(),
         equipment_id: Joi.string().required(),
       },
     },
     { messages },
     ),
   reservesEquipmentsDayAvailabilityController.index,
+);
+
+equipmentReservesRouter.get(
+  '/',
+  equipmentReservesController.all,
+);
+  
+equipmentReservesRouter.get(
+  '/available',
+  celebrate(
+    {
+      [Segments.QUERY]: {
+        date: Joi.number().required(),
+        hour: Joi.number().required(),
+        minute: Joi.number().required(),
+      },
+    },
+    { messages },
+    ),
+    availableEquipmentsController.index,
 );
 
 
@@ -70,22 +65,6 @@ equipmentReservesRouter.post(
     { messages },
   ),
   equipmentReservesController.create,
-);
-
-equipmentReservesRouter.get(
-  '/day-availability',
-  celebrate(
-    {
-      [Segments.BODY]: {
-        day: Joi.number().required(),
-        month: Joi.number().required(),
-        year: Joi.number().required(),
-        equipment_id: Joi.string().required(),
-      },
-    },
-    { messages },
-    ),
-  reservesEquipmentsDayAvailabilityController.index,
 );
 
 export default equipmentReservesRouter;

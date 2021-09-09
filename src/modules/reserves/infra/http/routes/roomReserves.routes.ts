@@ -23,9 +23,7 @@ roomReservesRouter.get(
   celebrate(
     {
       [Segments.BODY]: {
-        day: Joi.number().required(),
-        month: Joi.number().required(),
-        year: Joi.number().required(),
+        date: Joi.number().required(),
         room_id: Joi.string().required(),
       },
     },

@@ -5,17 +5,18 @@ import ListRoomDayAvailabilityService from '@modules/reserves/services/room/List
 
 export default class ReservesRoomDayAvailabilityController {
   public async index(request: Request, response: Response): Promise<Response> {
-    const { day, month, year, room_id } = request.body;
-
+    const { date, room_id } = request.body;
+    const data = new Date(date);
+    
     const listRoomsDayAvailability = container.resolve(
       ListRoomDayAvailabilityService,
     );
 
     const availability = await listRoomsDayAvailability.execute({
       room_id,
-      day,
-      month,
-      year,
+      day: data.getDate(),
+      month: data.getMonth(),
+      year: data.getFullYear(),
     });
 
     return response.json(availability);

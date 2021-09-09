@@ -5,16 +5,18 @@ import ListEquipmentDayAvailabilityService from '@modules/reserves/services/equi
 
 export default class ReservesEquipmentDayAvailabilityController {
   public async index(request: Request, response: Response): Promise<Response> {
-    const { day, month, year, equipment_id } = request.body;
+    const { date, equipment_id } = request.body;
+
+    const data = new Date(date);
 
     const listEquipmentsDayAvailability = container.resolve(
       ListEquipmentDayAvailabilityService,
     );
 
     const availability = await listEquipmentsDayAvailability.execute({
-      day,
-      month,
-      year,
+      day: data.getDate(),
+      month: data.getMonth(),
+      year: data.getFullYear(),
       equipment_id,
     });
 

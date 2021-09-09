@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import { getHours, getMinutes, isAfter } from 'date-fns';
+import { getHours, getMinutes, isAfter, isEqual, startOfDay } from 'date-fns';
 import IEquipmentReservesRepository from '../../repositories/IEquipmentReservesRepository';
 import { startHourArray } from  '@shared/constants/hourArrays';
 
@@ -33,21 +33,21 @@ class ListEquipmentDayAvailabilityService {
     
     const reserves = await this.EquipmentReservesRepository.findAllInDay(
       {
-        day,
-        month,
-        year,
         equipment_id,
+        day,
+        month: month + 1,
+        year,
       },
     );
 
-    const currentDate = new Date(Date.now());
+    const currentDate = new Date();
 
     const availability = startHourArray.map(hour_minutes => {
       const hasReserveInHour = reserves.find(
         reserve => getHours(reserve.starts_at) === hour_minutes.hour && getMinutes(reserve.starts_at) === hour_minutes.minute
       );
 
-      const compareDate = new Date(year, month - 1, day, hour_minutes.hour, hour_minutes.minute);
+      const compareDate = new Date(year, month, day, hour_minutes.hour, hour_minutes.minute);
 
       return {
         hour: hour_minutes.hour,

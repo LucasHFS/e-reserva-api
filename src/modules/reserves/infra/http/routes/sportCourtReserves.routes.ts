@@ -19,6 +19,21 @@ sportCourtReservesRouter.get(
   sportCourtReservesController.all,
 );
 
+
+sportCourtReservesRouter.get(
+  '/day-availability',
+  celebrate(
+    {
+      [Segments.BODY]: {
+        date: Joi.number().required(),
+        sport_court_id: Joi.string().required(),
+      },
+    },
+    { messages },
+    ),
+  reservesSportCourtsDayAvailabilityController.index,
+);
+
 sportCourtReservesRouter.get(
   '/available',
   celebrate(
@@ -50,22 +65,6 @@ sportCourtReservesRouter.post(
     { messages },
   ),
   sportCourtReservesController.create,
-);
-
-sportCourtReservesRouter.get(
-  '/day-availability',
-  celebrate(
-    {
-      [Segments.BODY]: {
-        day: Joi.number().required(),
-        month: Joi.number().required(),
-        year: Joi.number().required(),
-        sport_court_id: Joi.string().required(),
-      },
-    },
-    { messages },
-    ),
-  reservesSportCourtsDayAvailabilityController.index,
 );
 
 export default sportCourtReservesRouter;
