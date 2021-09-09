@@ -16,4 +16,6 @@ reservesRoutes.get('/pending/count', ensureAdminPermissions, pendingReservesCont
 reservesRoutes.put('/:id/accept', ensureAdminPermissions, pendingReservesController.accept);
 reservesRoutes.put('/:id/deny', ensureAdminPermissions, pendingReservesController.deny);
 
+reservesRoutes.delete('/:id', reservesController.delete);
+
 export default reservesRoutes;
