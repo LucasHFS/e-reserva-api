@@ -22,7 +22,7 @@ roomReservesRouter.get(
   '/day-availability',
   celebrate(
     {
-      [Segments.BODY]: {
+      [Segments.QUERY]: {
         date: Joi.number().required(),
         room_id: Joi.string().required(),
       },

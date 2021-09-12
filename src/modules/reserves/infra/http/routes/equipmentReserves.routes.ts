@@ -17,7 +17,7 @@ equipmentReservesRouter.get(
   '/day-availability',
   celebrate(
     {
-      [Segments.BODY]: {
+      [Segments.QUERY]: {
         date: Joi.number().required(),
         equipment_id: Joi.string().required(),
       },

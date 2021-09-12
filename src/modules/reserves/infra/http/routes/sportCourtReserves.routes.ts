@@ -24,7 +24,7 @@ sportCourtReservesRouter.get(
   '/day-availability',
   celebrate(
     {
-      [Segments.BODY]: {
+      [Segments.QUERY]: {
         date: Joi.number().required(),
         sport_court_id: Joi.string().required(),
       },
