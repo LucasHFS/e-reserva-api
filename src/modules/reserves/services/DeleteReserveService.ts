@@ -15,16 +15,15 @@ interface IRequest {
 @injectable()
 class DeleteReserveService {
   public async execute({ reserve_id }: IRequest): Promise<void> {
-    // find reserve
     const roomReserveRepository = getRepository(RoomReserve);
     const roomReserve = await roomReserveRepository.findOne(reserve_id)
 
     const today = new Date();
-
+      
+    
     if(roomReserve){
-      console.log(differenceInDays(roomReserve.starts_at, today))
-      if(differenceInDays(roomReserve.starts_at, today) <= 3){
-        throw new AppError('Só é possível cancelar 3 dias antes da data', 400)
+      if(differenceInDays(roomReserve.starts_at, today) < 3){
+        throw new AppError('Só é possível cancelar com no mínimo 3 dias antes da data', 400)
       }
 
       await roomReserveRepository.remove(roomReserve)
@@ -35,9 +34,10 @@ class DeleteReserveService {
     const equipmentReserve = await equipmentReserveRepository.findOne(reserve_id)
 
     if(equipmentReserve){
-      if(differenceInDays(equipmentReserve.starts_at, today) <= 3){
-        throw new AppError('Só é possível cancelar 3 dias antes da data', 400)
+      if(differenceInDays(equipmentReserve.starts_at, today) < 3){
+        throw new AppError('Só é possível cancelar com no mínimo 3 dias antes da data', 400)
       }
+
       await equipmentReserveRepository.remove(equipmentReserve)
       return
     }
@@ -47,7 +47,7 @@ class DeleteReserveService {
 
     if(sportCourtReserve){
       if(differenceInDays(sportCourtReserve.starts_at, today) <= 3){
-        throw new AppError('Só é possível cancelar 3 dias antes da data', 400)
+        throw new AppError('Só é possível cancelar com no mínimo 3 dias antes da data', 400)
       }
 
       await sportCourtReserveRepository.remove(sportCourtReserve)
