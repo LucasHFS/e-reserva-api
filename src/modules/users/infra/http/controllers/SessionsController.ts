@@ -15,6 +15,15 @@ export default class SessionsController {
       password,
     });
 
+    // @ts-ignore
+    if(user.courses?.length > 0){
+      // @ts-ignore
+      user.courseId = user.courses[0].id;
+    }else {
+      // @ts-ignore
+      user.courseId = ''
+    }
+
     return response.status(201).json({ user, token });
   }
 
@@ -27,10 +36,16 @@ export default class SessionsController {
 
     const verifyToken = new VerifyTokenService();
 
-    const valid = await verifyToken.execute({
-      token: token.toString()
-    });
+    try{
+      const valid = await verifyToken.execute({
+        token: token.toString()
+      });
 
-    return response.status(200).json({ valid });
+      return response.status(200).json({ valid });
+    } catch(err){
+      console.log(err)
+      throw new AppError('Token Invalido', 401)
+    }
+
   }
 }

@@ -17,9 +17,9 @@ const schema = Yup.object().shape({
   email: Yup.string().email().required(),
   cpf: Yup.string().required(),
   phone: Yup.string().required(),
-  password: Yup.string(),
+  password: Yup.string().nullable(),
   oldPassword: Yup.string(),
-  roleId: Yup.string().required(),
+  roleId: Yup.string(),
   bondId: Yup.string().required(),
   courseId: Yup.string().required(),
 });
